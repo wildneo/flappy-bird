@@ -1,0 +1,54 @@
+extends ../pug/layout.pug
+
+block meta
+  title Prologue by HTML5 UP
+  meta(name='description', content='Prologue by HTML5 UP')
+
+block header
+  +aside()
+    +logo(
+      'Jane Doe',
+      'Hyperspace Engineer',
+      'img/avatar.jpg'
+    )
+    +menu('0')
+    +social()
+
+block content
+  //- Top
+  +section('top', '', 'img/banner.jpg').cover
+    .header
+      h2 Hi! I'm Prologue, a #[a.link(href='#') free] responsive#[br] site template designed by #[a.link(href='#') HTML5 UP]
+    p Ligula scelerisque justo sem accumsan diam quis#[br] vitae natoque dictum sollicitudin elementum.
+    +btn('Magna Aliquam')(href='#portfolio', data-scroll-link='')
+
+  //- Portfolio
+  +section('portfolio', 'Portfolio')
+    p.
+      Vitae natoque dictum etiam semper magnis enim feugiat convallis convallis egestas rhoncus ridiculus in quis risus amet curabitur tempor orci penatibus. Tellus erat mauris ipsum fermentum etiam vivamus eget. Nunc nibh morbi quis fusce hendrerit lacus ridiculus.
+    +gallery()
+
+  //-  About Me
+  +section('about', 'About Me')
+    img.fit(src='img/pic08.jpg', alt='About Me')
+    p.
+      Tincidunt eu elit diam magnis pretium accumsan etiam id urna. Ridiculus ultricies curae quis et rhoncus velit. Lobortis elementum aliquet nec vitae laoreet eget cubilia quam non etiam odio tincidunt montes. Elementum sem parturient nulla quam placerat viverra mauris non cum elit tempus ullamcorper dolor. Libero rutrum ut lacinia donec curae mus vel quisque sociis nec ornare iaculis.
+
+  //- Contacts
+  +section('contacts', 'Contact')
+    p.
+      Elementum sem parturient nulla quam placerat viverra mauris non cum elit tempus ullamcorper dolor. Libero rutrum ut lacinia donec curae mus. Eleifend id porttitor ac ultricies lobortis sem nunc orci ridiculus faucibus a consectetur. Porttitor curae mauris urna mi dolor.
+    +form()(action='#', method='post')
+      .row
+        .half
+          input.fieldText(type='text' name='Name' placeholder='Name')
+        .half
+          input.fieldText(type='text' name='E-mail' placeholder='E-mail')
+        .full
+          textarea.fieldText(name='Message' placeholder='Message')
+        .full
+          +btn('Send Message', true)
+
+block footer
+  +section('footer')
+    +copyright()

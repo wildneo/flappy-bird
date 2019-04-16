@@ -1,0 +1,6 @@
+mixin logo(title, slogan, imgUrl)
+  .logo&attributes(attributes)
+    span.avatar
+      img(src= imgUrl, alt= title)
+    h1.header= title
+    p= slogan

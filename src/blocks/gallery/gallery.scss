@@ -1,0 +1,19 @@
+.gallery {
+  column-count: 3;
+  column-gap: 1em;
+
+  @include for-size(phone) {
+    column-count: auto;
+  }
+
+  .item {
+    break-inside: avoid;
+    background-color: $white;
+    box-shadow: 0 0 0.1em 0 $gray-light;
+    margin-bottom: 3rem;
+  
+    .header {
+      padding: 1rem 0;
+    }
+  }
+}

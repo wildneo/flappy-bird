@@ -1,0 +1,8 @@
+mixin form()
+  form.form&attributes(attributes)
+    block
+
+mixin fieldset(legend)
+  fieldset.form-fieldset&attributes(attributes)
+    legend.form-legend!= legend
+    block

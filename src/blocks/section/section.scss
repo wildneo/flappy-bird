@@ -1,0 +1,72 @@
+.section {
+  box-shadow: inset 0 1px 0.1em 0 $gray-light;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.03));
+  background-color: $bg-color--section;
+  text-align: center;
+  color: $text-color;
+  padding: 4rem 0;
+
+  @include for-size(phone) {
+    padding: 3rem 0;
+  }
+  .fit {
+    margin-bottom: 2rem;
+  }
+  h2 {
+    font-size: $font-size-h2;
+    line-height: 1.5em;
+
+    @include for-size(phone) {
+      font-size: 1.5em;
+    }
+  }
+  p {
+    font-size: 1.2em;
+    @extend .fit;
+
+    @include for-size(tablet) {
+      font-size: 1em;
+    }
+  }
+  .header {
+    @extend .fit;
+  }
+  .container {
+    margin: 0 auto;
+    max-width: 1440px;
+
+    @include for-size(desktop) {
+      width: 960px;
+    }
+    @include for-size(tablet-landscape) {
+      padding: 0 2rem;
+    }
+    @include for-size(tablet) {
+      padding: 0 2rem;
+    }
+    @include for-size(phone) {
+      padding: 0 1rem;
+    }
+  }
+  &.cover {
+    background-color: $gray;
+    background-position: center;
+    background-size: cover;
+    color: $text-color--cover;
+    box-shadow: none;
+    padding: 18rem 0;
+
+    @include for-size(tablet-landscape) {
+      padding: 6rem 0;
+    }
+    @include for-size(tablet) {
+      padding: 5rem 0;
+    }
+    .link{
+      color: $white;
+    }
+  }
+}

@@ -1,0 +1,8 @@
+mixin social()
+  include social.data.pug
+
+  ul.social-icons&attributes(attributes)
+    each socialItem in socialList
+      li.social-item
+        a.social-link(class= socialItem.icon, href= socialItem.url)
+          span.lable= socialItem.name

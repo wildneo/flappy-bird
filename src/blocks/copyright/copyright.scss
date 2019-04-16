@@ -1,0 +1,21 @@
+.copyright {
+  li {
+    display: inline-block;
+    border-left: solid 1px $gray-light;
+    line-height: 1em;
+    padding-left: 0.5rem;
+    margin-left: 0.5rem;
+
+    @include for-size(phone) {
+      display: block;
+      border: none;
+      font-size: 0.9em;
+      line-height: $line-height;
+    }
+
+    &:first-child {
+      border: none;
+      padding-left: 0;
+    }
+  }
+}
