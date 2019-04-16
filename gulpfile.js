@@ -4,6 +4,7 @@ const del = require('del');
 const pug = require('gulp-pug');
 const mkdirp = require('mkdirp');
 const sass = require('gulp-sass');
+const ghpages = require('gh-pages');
 const babelify = require('babelify');
 const postcss = require('gulp-postcss');
 const browserify = require('browserify');
@@ -106,6 +107,10 @@ const clearBuildDir = (cb) => {
   cb();
 }
 
+const deploy = (cb) => {
+  ghpages.publish(config.build, cb);
+}
+
 const reload = (cb) => {
   browserSync.reload();
   cb();
@@ -190,6 +195,12 @@ task(minifyImg);
 
 // Clear build dir:
 task(clearBuildDir);
+
+// Deploy project:
+task(deploy);
+
+// Reload browsers:
+task(reload);
 
 // Start server:
 task(serve);
