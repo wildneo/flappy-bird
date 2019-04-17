@@ -1,25 +1,24 @@
-const { src, dest, watch, task, series, parallel } = require('gulp');
-const fs = require('fs');
-const del = require('del');
-const pug = require('gulp-pug');
-const mkdirp = require('mkdirp');
-const sass = require('gulp-sass');
-const ghpages = require('gh-pages');
-const babelify = require('babelify');
-const postcss = require('gulp-postcss');
-const browserify = require('browserify');
-const imagemin = require('gulp-imagemin');
-const browserSync = require('browser-sync').create();
-const autoprefixer = require("autoprefixer");
-const config = require('./config');
+import { src, dest, watch, task, series, parallel } from 'gulp';
+import config from './config';
 
-const images = '**/*.{jpg,jpeg,png,gif,svg}';
+import fs             from 'fs';
+import del            from 'del';
+import pug            from 'gulp-pug';
+import sass           from 'gulp-sass';
+import mkdirp         from 'mkdirp';
+import postcss        from 'gulp-postcss';
+import ghpages        from 'gh-pages';
+import imagemin       from 'gulp-imagemin';
+import babelify       from 'babelify';
+import browserify     from 'browserify';
+import browserSync    from 'browser-sync';
+import autoprefixer   from 'autoprefixer';
 
-const doNotEditMsg = 'Внимание! Файл создан автоматически. Любые изменения этого файла будут потеряны при следующей компиляции.\n';
-
-let postCssPlugins = [
-  autoprefixer({grid: true}),
+const postCssPlugins = [
+  autoprefixer({grid: true})
 ];
+const images = '**/*.{jpg,jpeg,png,gif,svg}';
+const doNotEditMsg = 'Внимание! Файл создан автоматически. Любые изменения этого файла будут потеряны при следующей компиляции.\n';
 
 const makePugMixinsFile = (cb) => {
   const blocksWithPug = getDirectories(config.blocks, 'pug');
