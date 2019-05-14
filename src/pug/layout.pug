@@ -21,20 +21,10 @@ html
     block head
       link(rel='stylesheet', href='css/style.css')
 
-  //- body
-  +off-canvas()
+  body
     noscript У вас отключен JavaScript. Это пугает.
     script(async)
-
-    block header
-
-    .page-content
+    .content
       block content
 
-    .page-footer
-      block footer
-
-    block page-bottom
-      +burger()
-      +off-canvas-overlay()
-      script(src='js/bundle.js')
+    script(src='js/bundle.js')

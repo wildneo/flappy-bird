@@ -9,21 +9,5 @@ $pink-light:            hsl(350, 80%, 70%);
 $turquoise-light:       hsl(180, 30%, 60%);
 
 // Семантические цвета
-$text-color:            $gray;
-$text-color--cover:     $gray-light;
-
-$link-color:            $text-color;
-$link-color--hover:     $pink-light;
-
-$bg-color--aside:       $gray-dark;
-$bg-color--section:     lighten($turquoise-light, 36%);
 
 // Базовая типографика
-$font-size:             19px;
-$font-size-h1:          1.2em;
-$font-size-h2:          2.2em;
-
-$line-height:           2;
-
-$font-family:           'Source Sans Pro', 'sans-serif';
-$font-family--icons:    'FontAwesome';

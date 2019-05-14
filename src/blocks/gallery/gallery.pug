@@ -1,9 +1,0 @@
-mixin gallery()
-  include gallery.data.pug
-
-  .gallery
-    each item in chart
-      article.item
-        a(href="#"): img(src=item.url, alt=item.name)
-        .header
-          h3= item.name
