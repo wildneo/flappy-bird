@@ -1,6 +1,3 @@
-/**
- *
- */
 export class Sprite {
   constructor(options) {
     this.image = new Image();
@@ -28,14 +25,32 @@ export class Sprite {
     }
   }
   drawAnimateSprite(ctx, x, y, deg, row, col) {
-    this.update();
     this.drawStaticSprite(ctx, x, y, deg, row, this.frameIndex);
   }
   drawStaticSprite(ctx, x, y, deg, row, col) {
     ctx.save();
     ctx.translate(x + this.frameWidth / 2, y + this.frameHeight / 2);
     ctx.rotate(deg * Math.PI / 180);
-    ctx.drawImage(this.image, col * this.frameWidth, row * this.frameHeight, this.frameWidth, this.frameHeight, -this.frameWidth / 2, -this.frameHeight / 2, this.frameWidth, this.frameHeight);
+    ctx.drawImage(
+      this.image,
+      col * this.frameWidth,
+      row * this.frameHeight,
+      this.frameWidth,
+      this.frameHeight,
+      -this.frameWidth / 2,
+      -this.frameHeight / 2,
+      this.frameWidth,
+      this.frameHeight);
     ctx.restore();
+    // ctx.drawImage(
+    //   this.image,
+    //   col * this.frameWidth,
+    //   row * this.frameHeight,
+    //   this.frameWidth,
+    //   this.frameHeight,
+    //   x,
+    //   y,
+    //   this.frameWidth,
+    //   this.frameHeight);
   }
 };

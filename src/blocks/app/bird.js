@@ -1,14 +1,13 @@
 import { Sprite } from './sprite';
 
 export class Bird extends Sprite {
-  constructor(scene, color) {
+  constructor(color) {
     super({
       asset: 'bird.png',
       frameWidth: 34,
       frameHeight: 24,
       tickPerFrame: 8
     });
-    this.scene = scene;
     this.color = color;
     this.palette = {
       red: 0,
