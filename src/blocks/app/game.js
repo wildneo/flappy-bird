@@ -4,13 +4,18 @@ export class Game {
     this.cvs = canvas;
     // Set contecst
     this.ctx = this.cvs.getContext('2d');
-    this.counter = 0;
     // Init controls
     this.initInput();
     // Start game loop
     this.setScene(scene);
     this.startGameLoop();
   }
+  // set data() {
+
+  // }
+  // get data() {
+
+  // }
   setScene(Scene) {
     this.activeScene = new Scene(this);
   }
@@ -60,13 +65,6 @@ export class Game {
       return this.keyPressed;
     } else {
       return false;
-    }
-  }
-  tickCounter(ticks) {
-    this.counter++;
-    if (this.counter > ticks) {
-      this.counter = 0;
-      return true;
     }
   }
 };

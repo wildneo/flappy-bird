@@ -1,4 +1,6 @@
 import { Game } from './game';
+import { Bird } from './bird';
+import { Background } from './background';
 import { Sprite } from './sprite';
 
 function getAsset(name) {
@@ -7,72 +9,122 @@ function getAsset(name) {
   return asset;
 };
 
-class Bird extends Sprite{
-  constructor(scene, color) {
+class Counter {
+  constructor(ticks) {
+    this.ticks = ticks;
+    this.counter = 0;
+    this.finish = false;
+  }
+  set setCounter(ticks) {
+    this.ticks = ticks;
+  }
+  get isFinished() {
+    return this.finish;
+  }
+  start() {
+    this.counter++;
+    if (this.counter > this.ticks) {
+      // this.counter = 0;
+      this.finish = true;
+    }
+  }
+  reset() {
+    this.finish = false;
+    this.counter = 0;
+  }
+};
+class Frontground extends Sprite {
+  constructor() {
     super({
-      asset: 'bird.png',
-      frameWidth: 34,
-      frameHeight: 24,
-      tickPerFrame: 9
+      asset: 'fg.png',
+      frameWidth: 336,
+      frameHeight: 112
     });
-    this.scene = scene;
+    this.x = 0;
+  }
+  update(dt) {
+    // super.update(dt);
+    this.x--;
+    if (this.x < -48) {
+      this.x = 0;
+    }
+  }
+  render(ctx, cvs) {
+    this.update();
+    super.drawStaticSprite(ctx, this.x, cvs.height - this.frameHeight, 0, 0, 0);
+  }
+}
+class Pipe extends Sprite {
+  constructor(dir, color) {
+    super({
+      asset: 'pipes.png',
+      frameWidth: 52,
+      frameHeight: 320
+    });
+    this.dir = dir;
     this.color = color;
     this.palette = {
-      red: 0,
-      blue: 1,
-      yellow: 2
+      day: 0,
+      night: 1,
+      top: 0,
+      bottom: 1
     };
   }
   update(dt) {
-    super.update(dt);
+    // super.update(dt);
+    
   }
-  render(ctx, x, y, deg, flappying) {
-    flappying
-    ? super.drawAnimateSprite(ctx, x, y, deg, this.palette[this.color], 0)
-    : super.drawStaticSprite(ctx, x, y, deg, this.palette[this.color], 1);
+  render(ctx) {
+    // this.update();
+    super.drawStaticSprite(ctx, 200, -200, 0, this.palette[this.color], this.palette[this.dir]);
   }
-};
-
+}
 class GameScene {
   constructor(game) {
     this.game = game;
+    this.gravity = 0.4;
+    this.speed = -this.gravity * 20;
     this.x = game.cvs.width / 3;
     this.y = 200;
     this.degree = 0;
-    this.speed = 0;
-    this.gravity = 0.4;
+    this.counter = 0
     this.bird = new Bird(this, 'red');
-    this.dg = new Sprite({
-      asset: 'bg.png',
-      frameWidth: 288,
-      frameHeight: 512
-    });
+    this.pipe = new Pipe('top', 'day');
+    this.dg = new Background('day');
+    this.fg = new Frontground();
+    this.count1 = new Counter(35);
+    this.flappying = true;
   }
   update(dt) {
-    this.speed += this.gravity;
-    this.currentSpeed = Math.min(50, this.speed);
-    this.y += this.currentSpeed;
-    this.currentDegree = Math.min(90, this.degree);
-    
     // Bird stand by mode
-    // this.counter++;
-    // this.y = 200 + Math.sin((this.counter * Math.PI / 180) * 5) * 5;
+    this.counter++;
+    this.y = 200 + Math.sin((this.counter * Math.PI / 180) * 5) * 5;
     
-    if (this.game.checkKeyPress(32)) {
-      this.speed = -this.gravity * 20;
-      this.degree = -30;
-      this.flappying = true;
-    }
-    if (this.flappying && this.game.tickCounter(50)) {
-      this.flappying = false;
-    }
-    this.degree += 2;
-    console.log(this.degree);
+    // Bird game mode
+    // this.speed += this.gravity;
+    // this.currentSpeed = Math.min(50, this.speed);
+    // this.y += this.currentSpeed;
+    // this.currentDegree = Math.min(90, this.degree);
     
+    // if (this.game.checkKeyPress(32)) {
+    //   this.count1.reset();
+    //   this.flappying = true;
+    //   this.speed = -this.gravity * 20;
+    //   this.degree = -25;
+    // }
+    // if (this.flappying) {
+    //   this.count1.start();
+    //   if (this.count1.isFinished) {
+    //     this.flappying = false;
+    //   }
+    // }
+    // if (!this.flappying) this.degree += 5;
   }
   render(dt, cvs, ctx) {
-      this.dg.drawStaticSprite(ctx, 0, 0, 0, 0, 0);
+      this.dg.render(ctx);
       this.bird.render(ctx, this.x, this.y, this.currentDegree, this.flappying);
+      this.pipe.render(ctx);
+      this.fg.render(ctx, cvs);
   }
 };
 
