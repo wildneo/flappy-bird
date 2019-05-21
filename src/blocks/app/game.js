@@ -10,12 +10,7 @@ export class Game {
     this.setScene(scene);
     this.startGameLoop();
   }
-  // set data() {
-
-  // }
-  // get data() {
-
-  // }
+  
   setScene(Scene) {
     this.activeScene = new Scene(this);
   }
@@ -29,9 +24,9 @@ export class Game {
   }
   render(dt) {
     // Rendering:
-    // this.ctx.save();
+    this.ctx.save();
     this.activeScene.render(dt, this.cvs, this.ctx);
-    // this.ctx.restore();
+    this.ctx.restore();
   }
   startGameLoop() {
     let last = performance.now();
@@ -67,4 +62,4 @@ export class Game {
       return false;
     }
   }
-};
+}

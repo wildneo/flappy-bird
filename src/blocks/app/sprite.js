@@ -12,6 +12,10 @@ export class Sprite {
     this.tickCounter = 0;
     this.frameIndex = 0;
   }
+  get getTest() {
+    // return this.x;
+  }
+  // eslint-disable-next-line no-unused-vars
   update(dt) {
     this.tickCounter++;
     if (this.tickCounter > this.tickPerFrame) {
@@ -24,6 +28,7 @@ export class Sprite {
       }
     }
   }
+  // eslint-disable-next-line no-unused-vars
   drawAnimateSprite(ctx, x, y, deg, row, col) {
     this.drawStaticSprite(ctx, x, y, deg, row, this.frameIndex);
   }
@@ -53,4 +58,4 @@ export class Sprite {
     //   this.frameWidth,
     //   this.frameHeight);
   }
-};
+}

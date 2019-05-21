@@ -23,4 +23,4 @@ export class Bird extends Sprite {
       ? super.drawAnimateSprite(ctx, x, y, deg, this.palette[this.color], 0)
       : super.drawStaticSprite(ctx, x, y, deg, this.palette[this.color], 1);
   }
-};
+}

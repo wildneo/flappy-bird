@@ -19,4 +19,4 @@ export class Background extends Sprite {
   render(ctx) {
     super.drawStaticSprite(ctx, 0, 0, 0, 0, this.palette[this.color]);
   }
-};
+}
