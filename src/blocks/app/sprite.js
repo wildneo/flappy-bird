@@ -12,30 +12,22 @@ export class Sprite {
     this.tickCounter = 0;
     this.frameIndex = 0;
   }
-  get getTest() {
-    // return this.x;
-  }
   // eslint-disable-next-line no-unused-vars
   update(dt) {
     this.tickCounter++;
     if (this.tickCounter > this.tickPerFrame) {
       this.tickCounter = 0;
-      if (this.frameIndex < this.spritePerRow - 1) {
-        this.frameIndex++;
-      }
-      else {
-        this.frameIndex = 0;
-      }
+      this.frameIndex < this.spritePerRow - 1 ? this.frameIndex++ : this.frameIndex = 0;
     }
   }
   // eslint-disable-next-line no-unused-vars
-  drawAnimateSprite(ctx, x, y, deg, row, col) {
-    this.drawStaticSprite(ctx, x, y, deg, row, this.frameIndex);
+  drawAnimateSprite(ctx, x, y, angle, row, col) {
+    this.drawStaticSprite(ctx, x, y, angle, row, this.frameIndex);
   }
-  drawStaticSprite(ctx, x, y, deg, row, col) {
+  drawStaticSprite(ctx, x, y, angle, row, col) {
     ctx.save();
     ctx.translate(x + this.frameWidth / 2, y + this.frameHeight / 2);
-    ctx.rotate(deg * Math.PI / 180);
+    ctx.rotate(angle * Math.PI / 180);
     ctx.drawImage(
       this.image,
       col * this.frameWidth,
@@ -47,15 +39,5 @@ export class Sprite {
       this.frameWidth,
       this.frameHeight);
     ctx.restore();
-    // ctx.drawImage(
-    //   this.image,
-    //   col * this.frameWidth,
-    //   row * this.frameHeight,
-    //   this.frameWidth,
-    //   this.frameHeight,
-    //   x,
-    //   y,
-    //   this.frameWidth,
-    //   this.frameHeight);
   }
 }

@@ -10,7 +10,6 @@ export class Game {
     this.setScene(scene);
     this.startGameLoop();
   }
-  
   setScene(Scene) {
     this.activeScene = new Scene(this);
   }
