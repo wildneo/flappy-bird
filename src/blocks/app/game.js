@@ -22,7 +22,6 @@ export class Game {
     this.activeScene.update(dt);
   }
   render(dt) {
-    // Rendering:
     this.ctx.save();
     this.activeScene.render(dt, this.cvs, this.ctx);
     this.ctx.restore();

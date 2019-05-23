@@ -3,11 +3,13 @@ import { Sprite } from './sprite';
 
 export class Frontground extends ObjectClass {
   constructor() {
-    super(0, 0, 0);
+    super(0, 400, 0);
+    this.width = 336;
+    this.height = 112;
     this.sprite = new Sprite({
       asset: 'fg.png',
-      frameWidth: 336,
-      frameHeight: 112
+      frameWidth: this.width,
+      frameHeight: this.height
     });
   }
   update(dt) {

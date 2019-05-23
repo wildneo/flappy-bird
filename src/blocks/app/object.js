@@ -1,16 +1,18 @@
 export class Object {
   constructor(x, y, angle) {
-    this.x = x;
-    this.y = y;
-    this.angle = angle;
+    this.x = x || 0;
+    this.y = y || 0;
+    this.angle = angle || 0;
   }
   update(dt) {
     // console.log([this.x, this.y, this.angle]);
   }
   distanceTo(object) {
-    const dx = this.x - object.x;
-    const dy = this.y - object.y;
-    return Math.sqrt(dx * dx + dy * dy);
+    return {
+      dx: this.x - object.x,
+      dy: this.y - object.y
+    };
+    // return Math.sqrt(dx * dx + dy * dy);
   }
   setPosition(x, y, angle) {
     this.x = x;

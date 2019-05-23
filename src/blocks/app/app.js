@@ -1,10 +1,11 @@
 import { Game } from './game';
 import { Bird } from './bird';
 import { Background } from './background';
-import { Sprite } from './sprite';
 import { Counter } from './counter';
 import { Frontground } from './frontground';
-import { Object as ObjectClass } from './object';
+
+// import { Sprite } from './sprite';
+// import { Object as ObjectClass } from './object';
 
 // class Pipe extends Sprite {
 //   constructor(color) {
@@ -49,33 +50,7 @@ import { Object as ObjectClass } from './object';
 //     });
 //   }
 // }
-class Bird1 extends ObjectClass {
-  constructor(color) {
-    super(100, 100, 0);
-    this.sprite = new Sprite({
-      asset: 'bird.png',
-      frameWidth: 34,
-      frameHeight: 24,
-      tickPerFrame: 8
-    });
-    this.color = color;
-    this.palette = {
-      red: 0,
-      blue: 1,
-      yellow: 2
-    };
-    this.isAnimate = true;
-  }
-  update(dt) {
-    super.update(dt);
-    this.sprite.update(dt)
-  }
-  render(cvs, ctx) {
-    this.isAnimate
-      ? this.sprite.drawAnimateSprite(ctx, this.x, this.y, this.angle, this.palette[this.color], 0)
-      : this.sprite.drawStaticSprite(ctx, this.x, this.y, this.angle, this.palette[this.color], 1);
-  }
-}
+
 class GameScene {
   constructor(game) {
     this.game = game;
@@ -85,30 +60,29 @@ class GameScene {
     this.y = 200;
     this.degree = 0;
     this.counter = 0
-    this.bird = new Bird('red');
-    // this.pipe = new Pipe('day');
-    this.bg = new Background('day');
+    this.bird = new Bird({color: 'blue'});
+    this.bg = new Background({color: 'day'});
     this.fg = new Frontground();
+    // this.pipe = new Pipe('day');
     this.count1 = new Counter(35);
     this.count2 = new Counter(100);
     this.flappying = true;
-    this.test = new Bird1('blue');
-    
   }
   // eslint-disable-next-line no-unused-vars
   update(dt) {
     
-    // this.bird.update(dt);
+    this.bird.update(dt);
+    this.fg.update(dt);
     // this.pipe.update(dt);
     // this.bg.update(dt);
-    this.fg.update(dt);
-    this.test.update(dt);
     
     this.counter++;
-    this.y = 200 + Math.sin((this.counter * Math.PI / 180) * 5) * 5;
-    // this.y++;
-    this.test.setPosition(this.x, this.y, 0);
-    console.log(this.test.distanceTo(this.fg));
+    // this.y = 200 + Math.sin((this.counter * Math.PI / 180) * 5) * 5;
+    this.y++;
+    this.bird.setPosition(this.x, this.y, 0);
+    console.log(this.bird.distanceTo(this.fg));
+
+    if (this.bird.distanceTo(this.fg).dy + this.bird.height == 0) this.game.setScene(GameScene);
     
 
     // this.test.setDirection()
@@ -139,10 +113,9 @@ class GameScene {
     // if (!this.flappying) this.degree += 5;
   }
   render(dt, cvs, ctx) {
-    this.bg.render(ctx);
-    this.test.render(cvs, ctx);
+    this.bg.render(cvs, ctx);
+    this.bird.render(cvs, ctx);
     this.fg.render(cvs, ctx);
-    // this.bird.render(ctx, this.x, this.y, this.currentDegree, this.flappying);
     // this.pipe.render(ctx, 0, 0, 'top');
     // this.pipe.render(cvs, ctx, this.x, 0);
   }
