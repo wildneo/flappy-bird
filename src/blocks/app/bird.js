@@ -19,10 +19,14 @@ export class Bird extends ObjectClass {
       yellow: 2
     };
     this.animate = true;
+    this.score = 0;
+  }
+  setAnimationMod(animate) {
+    this.animate = animate;
   }
   update(dt) {
     super.update(dt);
-    this.sprite.update(dt)
+    this.sprite.update(dt);
   }
   render(cvs, ctx) {
     this.animate

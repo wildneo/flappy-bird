@@ -1,5 +1,6 @@
 import { Sprite } from './sprite';
 import { Object as ObjectClass } from './object';
+
 export class PipeGenerator extends ObjectClass {
   constructor(options) {
     super(288, 0, 0);
@@ -21,6 +22,16 @@ export class PipeGenerator extends ObjectClass {
     this.stack = [];
     this.counter = 0;
   }
+  distanceTo(object) {
+    return this.stack.map(item => ({
+      dx: item.x - object.x,
+      dy: item.y - object.y
+    }));
+    // return {
+    //   dx: this.stack[0].x - object.x,
+    //   dy: this.stack[0].y - object.y
+    // };
+  }
   update(dt) {
     super.update(dt);
     this.counter++;
@@ -40,8 +51,16 @@ export class PipeGenerator extends ObjectClass {
   }
   render(cvs, ctx) {
     this.stack.forEach(item => {
-      this.sprite.drawStaticSprite(ctx, item.x, item.y - this.height - this.gap, 0, this.palette[this.color], this.palette.top);
-      this.sprite.drawStaticSprite(ctx, item.x, item.y, 0, this.palette[this.color], this.palette.bottom);
+      this.sprite.drawStaticSprite(
+        ctx,
+        item.x, item.y - this.height - this.gap, 0,
+        this.palette[this.color], this.palette.top
+      );
+      this.sprite.drawStaticSprite(
+        ctx,
+        item.x, item.y, 0,
+        this.palette[this.color], this.palette.bottom
+      );
     });
   }
 }
