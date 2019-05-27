@@ -24,6 +24,12 @@ export class Bird extends ObjectClass {
   setAnimationMod(animate) {
     this.animate = animate;
   }
+  getScore() {
+    return this.score;
+  }
+  addScore() {
+    this.score++;
+  }
   update(dt) {
     super.update(dt);
     this.sprite.update(dt);

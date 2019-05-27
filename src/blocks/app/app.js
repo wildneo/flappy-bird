@@ -1,5 +1,6 @@
 import { Game } from './game';
 import { Bird } from './bird';
+import { Score } from './score';
 import { Background } from './background';
 import { Frontground } from './frontground';
 import { PipeGenerator } from './pipes';
@@ -10,6 +11,7 @@ class GameScene {
     this.game = game;
 
     this.bird = new Bird({color: 'blue'});
+    this.score = new Score();
     this.pipes = new PipeGenerator({color: 'day'});
     this.bg = new Background({color: 'day'});
     this.fg = new Frontground();
@@ -23,6 +25,7 @@ class GameScene {
     this.angle = 0;
 
     this.counter = 0;
+    this.counter2 = 0;
   }
   update(dt) {
     // Bird stand by mode
@@ -59,12 +62,17 @@ class GameScene {
     this.bird.update(dt);
     this.pipes.update(dt);
     this.fg.update(dt);
+    this.score.update(dt);
+
+    this.bird.addScore();
+    this.score.setScore(this.bird.getScore());
   }
   render(dt, cvs, ctx) {
     this.bg.render(cvs, ctx);
     this.bird.render(cvs, ctx);
     this.pipes.render(cvs, ctx);
     this.fg.render(cvs, ctx);
+    this.score.render(cvs, ctx);
   }
 }
 

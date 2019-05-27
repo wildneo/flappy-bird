@@ -27,10 +27,6 @@ export class PipeGenerator extends ObjectClass {
       dx: item.x - object.x,
       dy: item.y - object.y
     }));
-    // return {
-    //   dx: this.stack[0].x - object.x,
-    //   dy: this.stack[0].y - object.y
-    // };
   }
   update(dt) {
     super.update(dt);
