@@ -37,13 +37,12 @@ export class PipeGenerator extends ObjectClass {
         y: Math.floor(Math.random() * 150) + 150
       });
       this.counter = 0;
+
       // console.log(this.stack);
     }
-    if (this.stack.length > 2)
-      this.stack.shift();
-    this.stack.forEach(item => {
-      item.x--;
-    });
+    if (this.stack.length > 2) this.stack.shift();
+
+    this.stack.forEach(item => item.x--);
   }
   render(cvs, ctx) {
     this.stack.forEach(item => {

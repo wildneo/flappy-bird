@@ -29,6 +29,7 @@ export class Bird extends ObjectClass {
   }
   addScore() {
     this.score++;
+    return;
   }
   update(dt) {
     super.update(dt);

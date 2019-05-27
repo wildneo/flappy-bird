@@ -56,23 +56,23 @@ class GameScene {
     this.bird.setPosition(this.x, this.y, this.currentAngle);
 
     // Detecting collisions
-    if (detectCollision(this.bird, this.pipes, this.fg)) this.game.setScene(GameScene)
+    if (detectCollision(this.bird, this.pipes, this.fg)) this.game.setScene(GameScene);
+
+    // Update score
+    this.score.setScore(this.bird.getScore());
 
     // Update game objects
     this.bird.update(dt);
     this.pipes.update(dt);
     this.fg.update(dt);
-    this.score.update(dt);
 
-    this.bird.addScore();
-    this.score.setScore(this.bird.getScore());
   }
   render(dt, cvs, ctx) {
     this.bg.render(cvs, ctx);
     this.bird.render(cvs, ctx);
     this.pipes.render(cvs, ctx);
-    this.fg.render(cvs, ctx);
     this.score.render(cvs, ctx);
+    this.fg.render(cvs, ctx);
   }
 }
 
