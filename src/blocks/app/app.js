@@ -12,8 +12,8 @@ class GameScene {
     this.game = game;
 
     this.bird = new Bird({color: 'yellow'});
-    this.pipes = new PipeGenerator({color: 'day'});
-    this.bg = new Background({color: 'day'});
+    this.pipes = new PipeGenerator({theme: 'day'});
+    this.bg = new Background({theme: 'day'});
     this.fg = new Frontground();
     this.score = new Score();
 
@@ -46,7 +46,7 @@ class GameScene {
     }
     if (this.game.checkKeyPress(32)) {
       this.flying = true;
-      this.speed = -this.gravity * 15;
+      this.speed = -this.gravity * 20;
       this.angle = -20;
       this.counter = 0;
     }
@@ -77,7 +77,7 @@ class StratScene {
     this.game = game;
 
     this.bird = new Bird({color: 'yellow'});
-    this.bg = new Background({color: 'day'});
+    this.bg = new Background({theme: 'day'});
     this.fg = new Frontground();
     this.score = new Score();
     this.ready = new Ready();
