@@ -3,7 +3,7 @@ import { Object as ObjectClass } from './object';
 
 export class Score extends ObjectClass {
   constructor() {
-    super(144, 60, 0);
+    super(144, 50, 0);
     this.width = 24;
     this.height = 36;
     this.sprite = new Sprite({

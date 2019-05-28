@@ -5,38 +5,37 @@ import { Background } from './background';
 import { Frontground } from './frontground';
 import { PipeGenerator } from './pipes';
 import { detectCollision } from './collisions';
+import { Tap, Ready } from './other';
 
 class GameScene {
   constructor(game) {
     this.game = game;
 
-    this.bird = new Bird({color: 'blue'});
-    this.score = new Score();
+    this.bird = new Bird({color: 'yellow'});
     this.pipes = new PipeGenerator({color: 'day'});
     this.bg = new Background({color: 'day'});
     this.fg = new Frontground();
+    this.score = new Score();
 
     this.gravity = 0.2;
     this.speed = -this.gravity * 20;
     this.flying = true;
 
-    this.x = game.cvs.width / 3;
+    this.x = game.cvs.width / 4;
     this.y = 200;
     this.angle = 0;
 
     this.counter = 0;
-    this.counter2 = 0;
   }
   update(dt) {
-    // Bird stand by mode
-    // this.counter++;
-    // this.y = 200 + Math.sin((this.counter * Math.PI / 180) * 5) * 5;
-
     // Bird game mode
     this.speed += this.gravity;
     this.currentSpeed = Math.min(50, this.speed);
     this.y += this.currentSpeed;
     this.currentAngle = Math.min(90, this.angle);
+
+    this.bird.setAnimationMod(this.flying);
+    this.bird.setPosition(this.x, this.y, this.currentAngle);
     
     if (this.flying) {
       this.counter++;
@@ -52,11 +51,8 @@ class GameScene {
       this.counter = 0;
     }
 
-    this.bird.setAnimationMod(this.flying);
-    this.bird.setPosition(this.x, this.y, this.currentAngle);
-
     // Detecting collisions
-    if (detectCollision(this.bird, this.pipes, this.fg)) this.game.setScene(GameScene);
+    if (detectCollision(this.bird, this.pipes, this.fg)) this.game.setScene(StratScene);
 
     // Update score
     this.score.setScore(this.bird.getScore());
@@ -76,13 +72,48 @@ class GameScene {
   }
 }
 
-// eslint-disable-next-line no-unused-vars
-function getAsset(name) {
-  const asset = new Image();
-  asset.src = `img/${name}`;
-  return asset;
+class StratScene {
+  constructor(game) {
+    this.game = game;
+
+    this.bird = new Bird({color: 'yellow'});
+    this.bg = new Background({color: 'day'});
+    this.fg = new Frontground();
+    this.score = new Score();
+    this.ready = new Ready();
+    this.tap = new Tap();
+
+    this.x = game.cvs.width / 4;
+    this.y = 200;
+
+    this.counter = 0;
+  }
+  update(dt) {
+    // Bird stand by mode
+    this.counter++;
+    this.y = 200 + Math.sin((this.counter * Math.PI / 180) * 5) * 5;
+    this.bird.setPosition(this.x, this.y, this.currentAngle);
+
+    if (this.game.checkKeyPress(32)) {
+      this.game.setScene(GameScene)
+    }
+
+    // Update game objects
+    this.bird.update(dt);
+    this.fg.update(dt);
+
+  }
+  render(dt, cvs, ctx) {
+    this.bg.render(cvs, ctx);
+    this.bird.render(cvs, ctx);
+    this.score.render(cvs, ctx);
+    this.fg.render(cvs, ctx);
+    this.ready.render(cvs, ctx);
+    this.tap.render(cvs, ctx);
+  }
 }
+
 
 const cvs = document.querySelector('#flappy')
 // eslint-disable-next-line no-unused-vars
-const game = new Game(cvs, GameScene);
+const game = new Game(cvs, StratScene);

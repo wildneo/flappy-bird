@@ -4,6 +4,8 @@ export class Object {
     this.y = y || 0;
     this.angle = angle || 0;
   }
+
+  // eslint-disable-next-line no-unused-vars
   update(dt) {
     // console.log([this.x, this.y, this.angle]);
   }
@@ -12,7 +14,6 @@ export class Object {
       dx: this.x - object.x,
       dy: this.y - object.y
     };
-    // return Math.sqrt(dx * dx + dy * dy);
   }
   setPosition(x, y, angle) {
     this.x = x;

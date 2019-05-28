@@ -3,7 +3,7 @@ import { Sprite } from './sprite';
 
 export class Bird extends ObjectClass {
   constructor(options) {
-    super(96, 200, 0);
+    super(80, 200, 0);
     this.width = 34;
     this.height = 24;
     this.sprite = new Sprite({

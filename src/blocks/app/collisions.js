@@ -5,7 +5,7 @@ export const detectCollision = (player, pipes, floor) => {
   }
   if (pipes.distanceTo(player).length) {
     for (let i = 0; i < pipes.distanceTo(player).length; i++) {
-      if (pipes.distanceTo(player)[i].dx == 0) player.addScore();
+      if (pipes.distanceTo(player)[i].dx == 0) player.addScore(); // Add score point. Why this code here?
       if (pipes.distanceTo(player)[i].dx - player.width < 0 
         && pipes.distanceTo(player)[i].dx + pipes.width > 0
         && pipes.distanceTo(player)[i].dy - player.height < 0 
