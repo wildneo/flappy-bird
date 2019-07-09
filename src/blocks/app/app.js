@@ -1,17 +1,47 @@
 import { Game } from './game';
-import { Bird } from './bird';
-import { Score } from './score';
-import { Background } from './background';
-import { Frontground } from './frontground';
-import { PipeGenerator } from './pipes';
-import { detectCollision } from './collisions';
-import { Tap, Ready } from './other';
+// import { Bird } from './bird';
+// import { Score } from './score';
+// import { Background } from './background';
+// import { Frontground } from './frontground';
+// import { PipeGenerator } from './pipes';
+// import { detectCollision } from './collisions';
+// import { Tap, Ready } from './other';
 import { downloadAssets, getAsset } from './assets';
-import drawRotated from './drawRotated';
-import Sprite from './testSprite';
+import drawSprite from './drawSprite';
 
-const testImg = new Image();
-testImg.src = 'img/bird.png';
+// const testImg = new Image();
+// testImg.src = 'img/bird.png';
+class Animation {
+  constructor(sprite, tickPerFrame) {
+    this.image = sprite;
+    this.tickPerFrame = tickPerFrame;
+    this.endFrame = sprite.spritePerRow;
+    this.animationFlag = true;
+    this.tickCounter = 0;
+  }
+
+  play() {
+    this.animationFlag = true;
+  }
+
+  stop() {
+    this.animationFlag = false;
+  }
+
+  update() {
+    if (this.tickCounter === (this.tickPerFrame - 1)) {
+      this.image.horizontIndex = (this.image.horizontIndex + 1) % this.endFrame;
+    }
+    this.tickCounter = (this.tickCounter + 1) % this.tickPerFrame;
+  }
+
+  get sprite() {
+    if (this.animationFlag) {
+      this.update();
+    }
+    return this.image;
+  }
+}
 
 class GameScene {
   constructor(game) {
@@ -123,22 +153,22 @@ class StartScene {
 
 class TestScene {
   constructor(game) {
-    this.bird = new Sprite(getAsset('bird.png'), 34, 24);
-    // console.log(this.bird.width);
-    // console.log(this.bird.height);
-    // console.log(this.bird.sx);
-    // console.log(this.bird.sy);
-    // console.log(this.bird.index);
+    this.t = getAsset('bird.png');
+    this.bird = new Animation(getAsset('bird.png'), 10);
+    // this.bird.sprite.verticalIndex = 2;
+    // this.t.i = 4;
+    this.t.horizontIndex = 2;
+    this.t.verticalIndex = 1;
+    console.log(this.t.i);
+    
   }
 
   update(dt) {
-
+    
   }
 
   render(dt, cvs, ctx) {
-    ctx.drawImage(this.bird.image, this.bird.sx, this.bird.sy, this.bird.width, this.bird.height, 100, 100, this.bird.width, this.bird.height);
-    // ctx.drawImage(testImg, 10, 0, 34, 24, 10, 10, 100, 100);
-    // drawRotated(ctx, testImg, 100, 100, 0, 0);
+    drawSprite(ctx, this.bird.sprite, 100, 100, 0);
   }
 }
 

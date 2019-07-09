@@ -1,18 +1,19 @@
-const ASSET_NAMES = [
-  'bg.png',
-  'fg.png',
-  'bird.png',
-  'atlas.png',
-  'digits_lg.png',
-  'pipes.png',
-  'tap.png',
-  'titles.png',
+import Sprite from './sprite';
+
+const spritesheet = (assetName, spritePerRow, spritePerCol) => (
+  { assetName, spritePerRow, spritePerCol }
+);
+
+const ASSET_SPRITESHEETS = [
+  spritesheet('bg.png', 2),
+  spritesheet('bird.png', 3, 3),
 ];
 
 const assets = {};
 
-const downloadAsset = assetName => new Promise((resolve) => {
-  const asset = new Image();
+const downloadAsset = assetSpritesheet => new Promise((resolve) => {
+  const { assetName, spritePerRow, spritePerCol } = assetSpritesheet;
+  const asset = new Sprite(spritePerRow, spritePerCol);
   asset.onload = () => {
     // eslint-disable-next-line no-console
     console.log(`Downloaded ${assetName}`);
@@ -22,7 +23,8 @@ const downloadAsset = assetName => new Promise((resolve) => {
   asset.src = `img/${assetName}`;
 });
 
-const downloadPromise = Promise.all(ASSET_NAMES.map(downloadAsset));
+const downloadPromise = Promise.all(ASSET_SPRITESHEETS.map(downloadAsset));
+
 
 export const downloadAssets = () => downloadPromise;
 
