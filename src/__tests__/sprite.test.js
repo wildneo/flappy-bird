@@ -1,17 +1,26 @@
 import Sprite from '../blocks/app/sprite';
 
 describe('Sprite methods test', () => {
-  const nemSprite = new Sprite(3, 3);
-  nemSprite.src = '../img/bird.png';
-  nemSprite.onload = test('should ', () => {
-    expect(nemSprite).toBe(<img src="../img/bird.png" />);
+  const sprite = new Sprite(3, 3);
+  sprite.src = '../img/bird.png';
+  console.log(sprite.spriteIndex);
+  test('should be image', () => {
+    expect(sprite).toBeInstanceOf(Image);
+  });
+  sprite.onload = test('index', () => {
+    console.log(sprite.horizontIndex);
+    
+    // expect(sprite.index).toBeNull();
 
   });
 });
 
+// index
 // horizontIndex
 // verticalIndex
-// frameWidth
-// frameHight
+// spritePerRow
+// spritePerCol
+// sWidth
+// sHeight
 // sX
 // sY

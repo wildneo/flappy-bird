@@ -8,54 +8,50 @@ import { Game } from './game';
 // import { Tap, Ready } from './other';
 import { downloadAssets, getAsset } from './assets';
 import drawSprite from './drawSprite';
+import Sprite from './sprite';
+import AnimatedSprite from './animatedSprite';
+import StaticSprite from './staticSprite';
+import GameObject from './GameObject';
 
-// const testImg = new Image();
-// testImg.src = 'img/bird.png';
-class Animation {
-  constructor(sprite, tickPerFrame) {
-    this.image = sprite;
-    this.tickPerFrame = tickPerFrame;
-    this.endFrame = sprite.spritePerRow;
-    this.animationFlag = true;
-    this.tickCounter = 0;
+
+const createSprite = (imageAsset, animationSpeed) => {
+  const { asset, spritesheet } = imageAsset;
+  const Type = animationSpeed ? AnimatedSprite : StaticSprite;
+
+  return new Type(asset, ...spritesheet, animationSpeed);
+};
+
+const create = (asset, initPosition = [], animationSpeed) => {
+  const gameObject = new GameObject(...initPosition);
+  gameObject.addSprite = createSprite(asset, animationSpeed);
+
+  return gameObject;
+}
+
+class Collection {
+  constructor() {
+    this.collection = new Map();
   }
 
-  play() {
-    this.animationFlag = true;
+  add(key, object) {
+    this.collection.set(key, object);
+
+    return this;
   }
 
-  stop() {
-    this.animationFlag = false;
-  }
-
-  update() {
-    if (this.tickCounter === (this.tickPerFrame - 1)) {
-      this.image.horizontIndex = (this.image.horizontIndex + 1) % this.endFrame;
-    }
-    this.tickCounter = (this.tickCounter + 1) % this.tickPerFrame;
-  }
-
-  get sprite() {
-    if (this.animationFlag) {
-      this.update();
-    }
-    return this.image;
+  getObject(key) {
+    return this.collection.get(key);
   }
 }
+
 
 class GameScene {
   constructor(game) {
     this.game = game;
 
-<<<<<<< HEAD
     this.bird = new Bird({ color: 'yellow' });
-    this.pipes = new PipeGenerator({ color: 'day' });
-    this.bg = new Background({ color: 'day' });
-=======
-    this.bird = new Bird({color: 'yellow'});
-    this.pipes = new PipeGenerator({theme: 'day'});
-    this.bg = new Background({theme: 'day'});
->>>>>>> a9c44820437c3c5b0d245ed714481487c8d32e47
+    this.pipes = new PipeGenerator({ theme: 'day' });
+    this.bg = new Background({ theme: 'day' });
     this.fg = new Frontground();
     this.score = new Score();
 
@@ -119,13 +115,8 @@ class StartScene {
   constructor(game) {
     this.game = game;
 
-<<<<<<< HEAD
     this.bird = new Bird({ color: 'yellow' });
-    this.bg = new Background({ color: 'day' });
-=======
-    this.bird = new Bird({color: 'yellow'});
-    this.bg = new Background({theme: 'day'});
->>>>>>> a9c44820437c3c5b0d245ed714481487c8d32e47
+    this.bg = new Background({ theme: 'day' });
     this.fg = new Frontground();
     this.score = new Score();
     this.ready = new Ready();
@@ -164,18 +155,28 @@ class StartScene {
 
 class TestScene {
   constructor(game) {
-    this.t = getAsset('bird.png');
-    this.bird = new Animation(getAsset('bird.png'), 10);
+    this.sceneObjects = new Collection();
+    this.sceneObjects
+      .add('bg', create(getAsset('bg.png')))
+      .add('bird', create(getAsset('bird.png'), [100, 100, 0], 8));
+    this.bg = this.sceneObjects.getObject('bg');
+    this.bird = this.sceneObjects.getObject('bird');
     // this.bird.sprite.verticalIndex = 2;
     // this.t.i = 4;
-    this.t.horizontIndex = 2;
-    this.t.verticalIndex = 1;
-    console.log(this.t.i);
-    
+    // this.t.horizontIndex = 2;
+    // this.t.verticalIndex = 1;
+    // console.log(this.bird);
+    // console.log(this.bird.width);
+    // console.log(this.bird.height);
+    // console.log(this.bird.horizontIndex);
+    // console.log(this.bird.verticalIndex);
+    // console.log(this.bird.spriteIndex);
+    console.log(this.bg);
+    console.log(this.bird);
   }
 
   update(dt) {
-    
+    // this.bird.stop();
   }
 
   render(dt, cvs, ctx) {
