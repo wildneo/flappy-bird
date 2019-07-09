@@ -11,13 +11,13 @@ export class Background extends ObjectClass {
       frameWidth: this.width,
       frameHeight: this.height
     });
-    this.color = options.color;
+    this.theme = options.theme;
     this.palette = {
       day: 0,
       night: 1
     };
   }
   render(cvs, ctx) {
-    this.sprite.drawStaticSprite(ctx, 0, 0, 0, 0, this.palette[this.color]);
+    this.sprite.drawStaticSprite(ctx, 0, 0, 0, 0, this.palette[this.theme]);
   }
 }

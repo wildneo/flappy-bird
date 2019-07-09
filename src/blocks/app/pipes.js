@@ -12,7 +12,7 @@ export class PipeGenerator extends ObjectClass {
       frameWidth: this.width,
       frameHeight: this.height
     });
-    this.color = options.color;
+    this.theme = options.theme;
     this.palette = {
       day: 0,
       night: 1,
@@ -49,12 +49,12 @@ export class PipeGenerator extends ObjectClass {
       this.sprite.drawStaticSprite(
         ctx,
         item.x, item.y - this.height - this.gap, 0,
-        this.palette[this.color], this.palette.top
+        this.palette[this.theme], this.palette.top
       );
       this.sprite.drawStaticSprite(
         ctx,
         item.x, item.y, 0,
-        this.palette[this.color], this.palette.bottom
+        this.palette[this.theme], this.palette.bottom
       );
     });
   }

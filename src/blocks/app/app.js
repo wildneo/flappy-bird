@@ -47,9 +47,15 @@ class GameScene {
   constructor(game) {
     this.game = game;
 
+<<<<<<< HEAD
     this.bird = new Bird({ color: 'yellow' });
     this.pipes = new PipeGenerator({ color: 'day' });
     this.bg = new Background({ color: 'day' });
+=======
+    this.bird = new Bird({color: 'yellow'});
+    this.pipes = new PipeGenerator({theme: 'day'});
+    this.bg = new Background({theme: 'day'});
+>>>>>>> a9c44820437c3c5b0d245ed714481487c8d32e47
     this.fg = new Frontground();
     this.score = new Score();
 
@@ -83,7 +89,7 @@ class GameScene {
     }
     if (this.game.checkKeyPress(32)) {
       this.flying = true;
-      this.speed = -this.gravity * 15;
+      this.speed = -this.gravity * 20;
       this.angle = -20;
       this.counter = 0;
     }
@@ -113,8 +119,13 @@ class StartScene {
   constructor(game) {
     this.game = game;
 
+<<<<<<< HEAD
     this.bird = new Bird({ color: 'yellow' });
     this.bg = new Background({ color: 'day' });
+=======
+    this.bird = new Bird({color: 'yellow'});
+    this.bg = new Background({theme: 'day'});
+>>>>>>> a9c44820437c3c5b0d245ed714481487c8d32e47
     this.fg = new Frontground();
     this.score = new Score();
     this.ready = new Ready();
