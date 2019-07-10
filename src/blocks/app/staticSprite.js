@@ -1,7 +1,7 @@
-import Sprite from './sprite';
+import Sprite from './Sprite';
 
 export default class Staticprite extends Sprite {
-  get sprite() {
-    return this.image;
+  get image() {
+    return this.img;
   }
 }

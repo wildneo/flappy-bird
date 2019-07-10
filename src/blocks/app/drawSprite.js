@@ -6,7 +6,7 @@ export default (context, sprite, x, y, angle) => {
   context.translate(x + sprite.width / 2, y + sprite.height / 2);
   context.rotate(angle * Math.PI / 180);
   context.drawImage(
-    sprite.sprite,
+    sprite.image,
     sprite.sX,
     sprite.sY,
     sprite.width,

@@ -24,10 +24,10 @@ export default class AnimatedSprite extends Sprite {
     this.tickCounter = (this.tickCounter + 1) % this.tickPerFrame;
   }
 
-  get sprite() {
+  get image() {
     if (this.animationFlag) {
       this.update();
     }
-    return this.image;
+    return this.img;
   }
 }
