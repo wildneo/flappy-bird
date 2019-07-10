@@ -1,44 +1,49 @@
-export class Game {
+import Storage from './Storage';
+
+export default class Game {
   constructor(canvas, scene) {
-    // Get canvas
     this.cvs = canvas;
-    // Set contecst
     this.ctx = this.cvs.getContext('2d');
-    // Init controls
     this.initInput();
-    // Start game loop
     this.setScene(scene);
     this.startGameLoop();
   }
+
   setScene(Scene) {
-    this.activeScene = new Scene(this);
+    this.activeScene = new Scene(this, new Storage());
   }
+
   initInput() {
     this.keys = {};
+    // eslint-disable-next-line no-return-assign
     document.addEventListener('keydown', e => this.keys[e.which] = true);
+    // eslint-disable-next-line no-return-assign
     document.addEventListener('keyup', e => this.keys[e.which] = false);
   }
+
   update(dt) {
     this.activeScene.update(dt);
   }
+
   render(dt) {
-    this.ctx.save();
+    // this.ctx.save();
     this.activeScene.render(dt, this.cvs, this.ctx);
-    this.ctx.restore();
+    // this.ctx.restore();
   }
+
   startGameLoop() {
+    const fps = 60;
+    const step = 1 / fps;
     let last = performance.now();
-    let fps = 60;
-    let step = 1 / fps;
     let dt = 0;
     let now;
 
-    let draw = () => {
+    const draw = () => {
       now = performance.now();
-      dt = dt + Math.min(1, (now - last) / 1000);
-      
-      while(dt > step) {
-        dt = dt - step;
+      dt += Math.min(1, (now - last) / 1000);
+
+      while (dt > step) {
+        dt -= step;
         this.update(step);
       }
       last = now;
@@ -46,9 +51,10 @@ export class Game {
       this.render(dt * fps);
 
       requestAnimationFrame(draw);
-    }
+    };
     requestAnimationFrame(draw);
   }
+
   checkKeyPress(keyCode) {
     this.keyPressed = !!this.keys[keyCode];
     this.lastState = this.lastState || {};
@@ -56,8 +62,7 @@ export class Game {
     if (this.lastState[keyCode] !== this.keyPressed) {
       this.lastState[keyCode] = this.keyPressed;
       return this.keyPressed;
-    } else {
-      return false;
     }
+    return false;
   }
 }
