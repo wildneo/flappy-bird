@@ -1,8 +1,7 @@
 export default class Sprite {
   constructor(image, spritePerRow = 1, spritePerCol = 1) {
-    this.image = image;
+    this.img = image;
     this.spriteSheet = { spritePerRow, spritePerCol };
-    // return this.image;
   }
 
   set spriteIndex(index) {
@@ -39,11 +38,11 @@ export default class Sprite {
   }
 
   get width() {
-    return this.image.width / this.spritePerRow;
+    return this.img.width / this.spritePerRow;
   }
 
   get height() {
-    return this.image.height / this.spritePerCol;
+    return this.img.height / this.spritePerCol;
   }
 
   get sX() {

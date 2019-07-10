@@ -24,6 +24,7 @@ export class Sprite {
   drawAnimateSprite(ctx, x, y, angle, row, col) {
     this.drawStaticSprite(ctx, x, y, angle, row, this.frameIndex);
   }
+
   drawStaticSprite(ctx, x, y, angle, row, col) {
     ctx.save();
     ctx.translate(x + this.frameWidth / 2, y + this.frameHeight / 2);

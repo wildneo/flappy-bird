@@ -3,8 +3,13 @@ const attach = (assetName, ...spritesheet) => (
 );
 
 const ASSET_SPRITESHEETS = [
-  attach('bg.png', 2),
+  attach('fg.png', 1, 1),
+  attach('tap.png', 1, 1),
+  attach('bg.png', 2, 1),
   attach('bird.png', 3, 3),
+  attach('pipes.png', 2, 2),
+  attach('titles.png', 1, 3),
+  attach('digits_lg.png', 10, 1),
 ];
 
 const assets = {};
@@ -27,5 +32,3 @@ const downloadPromise = Promise.all(ASSET_SPRITESHEETS.map(downloadAsset));
 export const downloadAssets = () => downloadPromise;
 
 export const getAsset = assetName => assets[assetName];
-
-// export const getSpritesheet = assetName => assets[assetName].spritesheet;

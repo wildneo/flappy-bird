@@ -1,49 +1,6 @@
-import { Game } from './game';
-// import { Bird } from './bird';
-// import { Score } from './score';
-// import { Background } from './background';
-// import { Frontground } from './frontground';
-// import { PipeGenerator } from './pipes';
-// import { detectCollision } from './collisions';
-// import { Tap, Ready } from './other';
-import { downloadAssets, getAsset } from './assets';
-import drawSprite from './drawSprite';
-import Sprite from './sprite';
-import AnimatedSprite from './animatedSprite';
-import StaticSprite from './staticSprite';
-import GameObject from './GameObject';
-
-
-const createSprite = (imageAsset, animationSpeed) => {
-  const { asset, spritesheet } = imageAsset;
-  const Type = animationSpeed ? AnimatedSprite : StaticSprite;
-
-  return new Type(asset, ...spritesheet, animationSpeed);
-};
-
-const create = (asset, initPosition = [], animationSpeed) => {
-  const gameObject = new GameObject(...initPosition);
-  gameObject.addSprite = createSprite(asset, animationSpeed);
-
-  return gameObject;
-}
-
-class Collection {
-  constructor() {
-    this.collection = new Map();
-  }
-
-  add(key, object) {
-    this.collection.set(key, object);
-
-    return this;
-  }
-
-  getObject(key) {
-    return this.collection.get(key);
-  }
-}
-
+import { downloadAssets } from './assets';
+import TestScene from './TestScene';
+import Game from './Game';
 
 class GameScene {
   constructor(game) {
@@ -153,40 +110,8 @@ class StartScene {
   }
 }
 
-class TestScene {
-  constructor(game) {
-    this.sceneObjects = new Collection();
-    this.sceneObjects
-      .add('bg', create(getAsset('bg.png')))
-      .add('bird', create(getAsset('bird.png'), [100, 100, 0], 8));
-    this.bg = this.sceneObjects.getObject('bg');
-    this.bird = this.sceneObjects.getObject('bird');
-    // this.bird.sprite.verticalIndex = 2;
-    // this.t.i = 4;
-    // this.t.horizontIndex = 2;
-    // this.t.verticalIndex = 1;
-    // console.log(this.bird);
-    // console.log(this.bird.width);
-    // console.log(this.bird.height);
-    // console.log(this.bird.horizontIndex);
-    // console.log(this.bird.verticalIndex);
-    // console.log(this.bird.spriteIndex);
-    console.log(this.bg);
-    console.log(this.bird);
-  }
-
-  update(dt) {
-    // this.bird.stop();
-  }
-
-  render(dt, cvs, ctx) {
-    drawSprite(ctx, this.bird.sprite, 100, 100, 0);
-  }
-}
-
 const cvs = document.querySelector('#flappy');
 
-// eslint-disable-next-line no-unused-vars
 downloadAssets()
   .then(() => new Game(cvs, TestScene))
   .catch(console.error);
