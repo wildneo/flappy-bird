@@ -1,8 +1,8 @@
-import Sprite from './sprite';
+import Sprite from './Sprite';
 
 export default class AnimatedSprite extends Sprite {
-  constructor(image, spritePerRow, spritePerCol, tickPerFrame, endFrame) {
-    super(image, spritePerRow, spritePerCol);
+  constructor(image, spritePerRow, spritePerCol, x, y, angle, tickPerFrame, endFrame) {
+    super(image, spritePerRow, spritePerCol, x, y, angle);
     this.tickPerFrame = tickPerFrame;
     this.endFrame = endFrame || this.spritePerRow;
     this.animationFlag = true;

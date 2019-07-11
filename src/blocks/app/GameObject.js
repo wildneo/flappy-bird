@@ -1,23 +1,33 @@
+import Storage from './Storage';
+
 export default class GameObject {
-  constructor(x = 0, y = 0, angle = 0) {
-    this.x = x;
-    this.y = y;
-    this.angle = angle;
+  constructor(entries) {
+    this.entryStorege = new Storage(entries);
   }
 
-  setPosition(x, y, angle) {
-    this.x = x;
-    this.y = y;
-    this.angle = angle;
+  applyModifier(fn) {
+    fn(this);
+    return this;
   }
 
-  set addSprite(sprite) {
-    this.sprite = sprite;
+  addEntry(entry) {
+    this.entryStorege.add(...entry);
+    return this;
   }
 
-  get entity() {
-    return this.sprite;
+  getEntry(key) {
+    return this.entryStorege.getObject(key);
   }
+
+  get entries() {
+    return this.entryStorege.getObjects();
+  }
+
+  // setPosition(x, y, angle) {
+  //   this.x = x;
+  //   this.y = y;
+  //   this.angle = angle;
+  // }
 
   // distanceTo(object) {
   //   return {

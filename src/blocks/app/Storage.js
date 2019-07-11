@@ -1,6 +1,6 @@
 export default class Storage {
-  constructor() {
-    this.storage = new Map();
+  constructor(...data) {
+    this.storage = new Map(data);
   }
 
   add(key, data) {
@@ -14,5 +14,13 @@ export default class Storage {
 
   getObjects() {
     return [...this.storage.values()];
+  }
+
+  delete(key) {
+    return this.storage.delete(key);
+  }
+
+  get size() {
+    return this.storage.size;
   }
 }

@@ -26,9 +26,9 @@ export default class Game {
   }
 
   render(dt) {
-    // this.ctx.save();
+    this.ctx.save();
     this.activeScene.render(dt, this.cvs, this.ctx);
-    // this.ctx.restore();
+    this.ctx.restore();
   }
 
   startGameLoop() {
