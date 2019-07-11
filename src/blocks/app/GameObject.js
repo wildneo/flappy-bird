@@ -5,11 +5,6 @@ export default class GameObject {
     this.entryStorege = new Storage(entries);
   }
 
-  applyModifier(fn) {
-    fn(this);
-    return this;
-  }
-
   addEntry(entry) {
     this.entryStorege.add(...entry);
     return this;
