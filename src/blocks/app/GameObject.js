@@ -1,21 +1,21 @@
 import Storage from './Storage';
 
 export default class GameObject {
-  constructor(entries) {
-    this.entryStorege = new Storage(entries);
+  constructor(children) {
+    this.storage = new Storage(children);
   }
 
-  addEntry(entry) {
-    this.entryStorege.add(...entry);
+  addChild(child) {
+    this.storage.add(...child);
     return this;
   }
 
-  getEntry(key) {
-    return this.entryStorege.getObject(key);
+  getChild(key) {
+    return this.storage.getObject(key);
   }
 
-  get entries() {
-    return this.entryStorege.getObjects();
+  get children() {
+    return this.storage.getObjects();
   }
 
   // setPosition(x, y, angle) {

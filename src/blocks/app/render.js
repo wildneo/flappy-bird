@@ -3,9 +3,9 @@ import Sprite from './Sprite';
 
 export default (collection, context) => {
   const objects = collection.getObjects();
-  const entries = objects.reduce((acc, e) => ([...acc, ...e.entries]), []);
+  const children = objects.reduce((acc, e) => ([...acc, ...e.children]), []);
 
-  return entries.forEach((object) => {
+  return children.forEach((object) => {
     if (object instanceof Sprite) {
       drawSprite(context, object, object.x, object.y, object.angle);
     }
