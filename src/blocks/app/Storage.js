@@ -20,6 +20,10 @@ export default class Storage {
     return this.storage.delete(key);
   }
 
+  clear() {
+    return this.storage.clear();
+  }
+
   get size() {
     return this.storage.size;
   }
