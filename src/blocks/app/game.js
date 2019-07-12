@@ -1,9 +1,21 @@
 import Storage from './Storage';
 
+const CONSTANTS = Object.freeze({
+  SPEED: 100,
+  GRAVITY: 0.2,
+  BACKGROUND: {
+    theme: 0,
+  },
+  BIRD: {
+    color: 0,
+  },
+});
+
 export default class Game {
   constructor(canvas, scene) {
     this.cvs = canvas;
     this.ctx = this.cvs.getContext('2d');
+    this.constants = CONSTANTS;
     this.initInput();
     this.setScene(scene);
     this.startGameLoop();
