@@ -4,14 +4,31 @@ import render from './render';
 import GameObject from './GameObject';
 
 function birdStandBy(counter) {
-  this.getEntry(0).y = 190 + Math.sin((counter * Math.PI / 180) * 5) * 5;
+  this.getChild(0).y = 200 + Math.sin((counter * Math.PI / 180) * 5) * 5;
 }
 
-function fgMove() {
-  if (this.getEntry(0).x < -47) {
-    this.getEntry(0).x = 0;
+function fgMove(speed) {
+  if (this.getChild(0).x < -47) {
+    this.getChild(0).x = 0;
   }
-  this.getEntry(0).x -= 1;
+  this.getChild(0).x -= speed;
+}
+
+function setScore(score) {
+  this.score = score.toString().split('').map(e => +e);
+
+  if (this.storage.size !== this.score.length) {
+    this.storage.clear();
+    const xOrigin = (288 - 24 * this.score.length) / 2;
+    this.score.forEach((e, index) => {
+      this.addChild(createSprite(index, getAsset('digits_lg.png'), [xOrigin + 24 * index, 50, 0]));
+    });
+  }
+  // console.log(this.storage);
+
+  this.children.forEach((e, index) => {
+    e.spriteIndex = this.score[index];
+  });
 }
 
 export default class TestScene {
@@ -23,7 +40,7 @@ export default class TestScene {
         createSprite(0, getAsset('bg.png')),
       ))
       .add('bird', new GameObject(
-        createSprite(0, getAsset('bird.png'), [70, 180, 0], 8),
+        createSprite(0, getAsset('bird.png'), [70, 190, 0], 8),
       ))
       .add('score', new GameObject(
         createSprite(0, getAsset('digits_lg.png'), [132, 50, 0]),
@@ -32,31 +49,37 @@ export default class TestScene {
         createSprite(0, getAsset('fg.png'), [0, 400, 0]),
       ))
       .add('ready', new GameObject(
-        createSprite(0, getAsset('titles.png'), [44, 102, 0]),
+        createSprite(0, getAsset('titles.png'), [44, 120, 0]),
       ))
       .add('tap', new GameObject(
-        createSprite(0, getAsset('tap.png'), [87, 170, 0]),
+        createSprite(0, getAsset('tap.png'), [87, 210, 0]),
       ));
 
     this.score = this.storage.getObject('score');
-    this.score.addEntry(createSprite(1, getAsset('digits_lg.png')));
 
     this.bird = this.storage.getObject('bird');
     this.fg = this.storage.getObject('fg');
+    this.bg = this.storage.getObject('bg');
     this.ready = this.storage.getObject('ready');
-    this.ready.getEntry(0).spriteIndex = 1;
+
+    this.ready.getChild(0).spriteIndex = 1;
+    this.bird.getChild(0).spriteOffset = this.game.constants.BIRD.color;
+    this.bg.getChild(0).spriteOffset = this.game.constants.BACKGROUND.theme;
+
+    console.log(this.bg.getChild(0));
+    
 
     this.counter = 0;
-
-    // console.log(this.score);
+    this.speed = 100;
   }
 
   update(dt) {
     // Bird stand by mode
-    this.counter += 1;
+    this.counter += this.speed * dt;
     birdStandBy.call(this.bird, this.counter);
+    fgMove.call(this.fg, this.speed * dt);
 
-    fgMove.call(this.fg);
+    setScore.call(this.score, 1234567890);
   }
 
   render(dt, cvs, ctx) {
