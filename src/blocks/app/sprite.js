@@ -1,6 +1,7 @@
 export default class Sprite {
   constructor(image, spritePerRow = 1, spritePerCol = 1, x = 0, y = 0, angle = 0) {
     this.img = image;
+    this.offset = 0;
     this.spriteSheet = { spritePerRow, spritePerCol };
     this.position = { x, y, angle };
   }
@@ -17,9 +18,14 @@ export default class Sprite {
     this.position.angle = angle;
   }
 
+  set spriteOffset(offset) {
+    this.offset = offset;
+    this.spriteIndex = this.spriteIndex;
+  }
+
   set spriteIndex(index) {
-    this.horizontIndex = Math.floor(index % this.spritePerRow);
-    this.verticalIndex = Math.floor(index / this.spritePerRow);
+    this.horizontIndex = Math.floor((index + this.offset) % this.spritePerRow);
+    this.verticalIndex = Math.floor((index + this.offset) / this.spritePerRow);
   }
 
   set horizontIndex(index) {
