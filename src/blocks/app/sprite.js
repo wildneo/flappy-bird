@@ -1,7 +1,6 @@
 export default class Sprite {
   constructor(image, spritePerRow = 1, spritePerCol = 1, x = 0, y = 0, angle = 0) {
     this.img = image;
-    this.offset = 0;
     this.spriteSheet = { spritePerRow, spritePerCol };
     this.position = { x, y, angle };
   }
@@ -18,12 +17,16 @@ export default class Sprite {
     this.position.angle = angle;
   }
 
-  set spriteOffset(offset) {
-    this.offset = offset;
-    this.spriteIndex = this.spriteIndex;
+  set alpha(alpha) {
+    this.spriteAlpha = alpha;
   }
 
-  set spriteIndex(index) {
+  set offset(offset) {
+    this.spriteOffset = offset;
+    this.index = this.index;
+  }
+
+  set index(index) {
     this.horizontIndex = Math.floor((index + this.offset) % this.spritePerRow);
     this.verticalIndex = Math.floor((index + this.offset) / this.spritePerRow);
   }
@@ -36,7 +39,7 @@ export default class Sprite {
     this.spriteSheet.verticalIndex = index;
   }
 
-  get spriteIndex() {
+  get index() {
     return (this.spritePerRow * this.verticalIndex) + this.horizontIndex;
   }
 
@@ -54,6 +57,14 @@ export default class Sprite {
 
   get spritePerCol() {
     return this.spriteSheet.spritePerCol;
+  }
+
+  get alpha() {
+    return this.spriteAlpha || 1;
+  }
+
+  get offset() {
+    return this.spriteOffset || 0;
   }
 
   get width() {
@@ -80,7 +91,7 @@ export default class Sprite {
     return this.position.y;
   }
 
-  get angle() {
-    return this.position.angle;
+  get image() {
+    return this.img;
   }
 }

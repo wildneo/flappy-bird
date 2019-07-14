@@ -1,20 +1,24 @@
-export default (context, sprite, x, y, angle) => {
-  if (!context || !sprite) {
-    return;
-  }
-  context.save();
-  context.translate(x + sprite.width / 2, y + sprite.height / 2);
-  context.rotate(angle * Math.PI / 180);
-  context.drawImage(
+export default (context, sprite) => {
+  const ctx = context;
+  const { x, y, angle } = sprite.position;
+  const halfWidth = sprite.width / 2;
+  const halfHeight = sprite.height / 2;
+
+  ctx.save();
+  ctx.globalAlpha = sprite.spriteAlpha;
+  ctx.translate(x - halfWidth, y - halfHeight);
+  ctx.rotate(angle * Math.PI / 180);
+  // TODO: Scale.
+  ctx.drawImage(
     sprite.image,
     sprite.sX,
     sprite.sY,
     sprite.width,
     sprite.height,
-    -sprite.width / 2,
-    -sprite.height / 2,
+    halfWidth,
+    halfHeight,
     sprite.width,
     sprite.height,
   );
-  context.restore();
+  ctx.restore();
 };

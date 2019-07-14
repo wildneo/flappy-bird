@@ -1,5 +1,5 @@
 export default class Storage {
-  constructor(...data) {
+  constructor(data) {
     this.storage = new Map(data);
   }
 
@@ -8,11 +8,11 @@ export default class Storage {
     return this;
   }
 
-  getObject(key) {
+  getChild(key) {
     return this.storage.get(key);
   }
 
-  getObjects() {
+  get children() {
     return [...this.storage.values()];
   }
 
@@ -21,10 +21,15 @@ export default class Storage {
   }
 
   clear() {
-    return this.storage.clear();
+    this.storage.clear();
+    return this;
   }
 
   get size() {
     return this.storage.size;
+  }
+
+  render(context) {
+    this.children.forEach(object => object.render(context));
   }
 }

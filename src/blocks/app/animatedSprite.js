@@ -1,4 +1,5 @@
 import Sprite from './Sprite';
+import drawSprite from './drawSprite';
 
 export default class AnimatedSprite extends Sprite {
   constructor(image, spritePerRow, spritePerCol, x, y, angle, tickPerFrame, endFrame) {
@@ -19,15 +20,15 @@ export default class AnimatedSprite extends Sprite {
 
   update() {
     if (this.tickCounter === (this.tickPerFrame - 1)) {
-      this.spriteIndex = (this.spriteIndex + 1) % this.endFrame;
+      this.index = (this.index + 1) % this.endFrame;
     }
     this.tickCounter = (this.tickCounter + 1) % this.tickPerFrame;
   }
 
-  get image() {
+  render(ctx) {
     if (this.animationFlag) {
       this.update();
     }
-    return this.img;
+    drawSprite(ctx, this);
   }
 }
