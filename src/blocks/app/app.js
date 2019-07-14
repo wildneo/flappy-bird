@@ -1,5 +1,5 @@
 import { downloadAssets } from './assets';
-import TestScene from './TestScene';
+import MainScene from './MainScene';
 import Game from './Game';
 
 class GameScene {
@@ -68,50 +68,8 @@ class GameScene {
   }
 }
 
-class StartScene {
-  constructor(game) {
-    this.game = game;
-
-    this.bird = new Bird({ color: 'yellow' });
-    this.bg = new Background({ theme: 'day' });
-    this.fg = new Frontground();
-    this.score = new Score();
-    this.ready = new Ready();
-    this.tap = new Tap();
-
-    this.x = game.cvs.width / 4;
-    this.y = 200;
-
-    this.counter = 0;
-  }
-
-  update(dt) {
-    // Bird stand by mode
-    this.counter++;
-    this.y = 200 + Math.sin((this.counter * Math.PI / 180) * 5) * 5;
-    this.bird.setPosition(this.x, this.y, this.currentAngle);
-
-    if (this.game.checkKeyPress(32)) {
-      this.game.setScene(GameScene);
-    }
-
-    // Update game objects
-    this.bird.update(dt);
-    this.fg.update(dt);
-  }
-
-  render(dt, cvs, ctx) {
-    this.bg.render(cvs, ctx);
-    this.bird.render(cvs, ctx);
-    this.score.render(cvs, ctx);
-    this.fg.render(cvs, ctx);
-    this.ready.render(cvs, ctx);
-    this.tap.render(cvs, ctx);
-  }
-}
-
 const cvs = document.querySelector('#flappy');
 
 downloadAssets()
-  .then(() => new Game(cvs, TestScene))
+  .then(() => new Game(cvs, MainScene))
   .catch(console.error);

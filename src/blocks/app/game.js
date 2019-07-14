@@ -1,13 +1,13 @@
-import Storage from './Storage';
+import Layer from './Layer';
 
 const CONSTANTS = Object.freeze({
   SPEED: 100,
   GRAVITY: 0.2,
   BACKGROUND: {
-    theme: 0,
+    theme: 1,
   },
   BIRD: {
-    color: 0,
+    color: 3,
   },
 });
 
@@ -22,7 +22,7 @@ export default class Game {
   }
 
   setScene(Scene) {
-    this.activeScene = new Scene(this, new Storage());
+    this.activeScene = new Scene(this, new Layer());
   }
 
   initInput() {

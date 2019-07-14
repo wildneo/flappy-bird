@@ -10,6 +10,8 @@ const ASSET_SPRITESHEETS = [
   attach('pipes.png', 2, 2),
   attach('titles.png', 1, 3),
   attach('digits_lg.png', 10, 1),
+  attach('btn-1.png', 2, 1),
+  attach('btn-2.png', 1, 3),
 ];
 
 const assets = {};
