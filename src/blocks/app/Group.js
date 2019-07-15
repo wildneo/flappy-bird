@@ -1,5 +1,3 @@
-import renderer from './renderer';
-
 export default class Group {
   constructor(children) {
     this.group = [...children];
@@ -16,16 +14,15 @@ export default class Group {
 
   appendChild(child) {
     this.group.push(child);
-    return this;
+    return child;
   }
 
   clear() {
     this.group = [];
-    return this;
   }
 
   render(context) {
-    this.group.forEach(object => renderer(context, object));
+    this.group.forEach(object => object.render(context));
   }
 
   set x(x) {
@@ -38,7 +35,7 @@ export default class Group {
     this.group.forEach((object) => {
       const Y = object.y + this.position.y;
       const offset = Y - object.y;
-      console.log(offset);
+      // console.log(offset);
       
       object.y = offset + this.position.y;
     });

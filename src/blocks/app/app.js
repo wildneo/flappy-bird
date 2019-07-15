@@ -1,5 +1,6 @@
 import { downloadAssets } from './assets';
 import MainScene from './MainScene';
+import TestScene from './TestScene';
 import Game from './Game';
 
 class GameScene {
@@ -71,5 +72,5 @@ class GameScene {
 const cvs = document.querySelector('#flappy');
 
 downloadAssets()
-  .then(() => new Game(cvs, MainScene))
+  .then(() => new Game(cvs, TestScene))
   .catch(console.error);
