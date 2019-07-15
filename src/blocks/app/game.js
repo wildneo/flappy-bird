@@ -1,8 +1,8 @@
 import Layer from './Layer';
 
 const CONSTANTS = Object.freeze({
-  SPEED: 100,
-  GRAVITY: 0.2,
+  SPEED: 150,
+  GRAVITY: 0.4,
   BACKGROUND: {
     theme: 1,
   },
@@ -27,10 +27,22 @@ export default class Game {
 
   initInput() {
     this.keys = {};
-    // eslint-disable-next-line no-return-assign
-    document.addEventListener('keydown', e => this.keys[e.which] = true);
-    // eslint-disable-next-line no-return-assign
-    document.addEventListener('keyup', e => this.keys[e.which] = false);
+    this.mouseClickPosition = {};
+
+    document.addEventListener('keydown', (event) => {
+      const { which } = event;
+      this.keys = { [which]: true };
+    });
+    document.addEventListener('keyup', (event) => {
+      const { which } = event;
+      this.keys = { [which]: false };
+    });
+    this.cvs.addEventListener('click', (event) => {
+      const { pageX, pageY } = event;
+      const x = pageX - this.cvs.offsetLeft;
+      const y = pageY - this.cvs.offsetTop;
+      this.mouseClickPosition = { x, y };
+    });
   }
 
   update(dt) {
