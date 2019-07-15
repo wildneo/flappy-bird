@@ -56,7 +56,7 @@ function pipeGenerator(speed) {
   if (this.counter >= 200) {
     this.counter = 0;
     const x = 288;
-    const y = Math.floor(Math.random() * -100) + -100;
+    const y = Math.round(Math.random() * -100) - 100;
     const topPipe = this.appendChild(createSprite(getAsset('pipes.png'), [x, y]));
     const bottomPipe = this.appendChild(createSprite(getAsset('pipes.png'), [x, topPipe.y + topPipe.height + gap]));
     bottomPipe.index = 1;
@@ -89,6 +89,7 @@ export default class TestScene {
     this.fg = this.layer.getChild('fg');
     this.bg = this.layer.getChild('bg');
     this.ready = this.layer.getChild('ready');
+    this.tap = this.layer.getChild('tap');
 
     this.ready.offset = 1;
     this.bird.offset = this.game.constants.BIRD.color;
@@ -98,13 +99,19 @@ export default class TestScene {
     // console.log(this.score);
 
     this.counter = 0;
+    this.alpha = 100;
   }
 
   update(dt) {
     this.speed = this.game.constants.SPEED * dt;
 
-    
-    this.ready.alpha = 0;
+    if (this.alpha > 0) {
+      this.alpha -= 5;
+    }
+    this.ready.opacity = this.alpha;
+    this.tap.opacity = this.alpha;
+
+
     // Bird stand by mode
     // sinusMovement.call(this.bird, this.speed, this.bird.y);
 
@@ -124,7 +131,7 @@ export default class TestScene {
 
     pipeGenerator.call(this.pipes, this.speed);
 
-    console.log(this.ready.alpha);
+    console.log(this.alpha);
   }
 
   render(dt, cvs, ctx) {
