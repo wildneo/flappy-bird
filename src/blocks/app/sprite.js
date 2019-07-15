@@ -21,6 +21,10 @@ export default class Sprite {
     this.spriteAlpha = alpha;
   }
 
+  set opacity(opacity) {
+    this.spriteAlpha = opacity >= 0 ? opacity / 100 : 0;
+  }
+
   set offset(offset) {
     this.spriteOffset = offset;
     this.index = this.index;
@@ -57,6 +61,10 @@ export default class Sprite {
 
   get spritePerCol() {
     return this.spriteSheet.spritePerCol;
+  }
+
+  get opacity() {
+    return this.spriteAlpha * 100;
   }
 
   get alpha() {
