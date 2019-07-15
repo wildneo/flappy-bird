@@ -18,6 +18,14 @@ export default class AnimatedSprite extends Sprite {
     this.animationFlag = false;
   }
 
+  isPlaying() {
+    return this.animationFlag;
+  }
+
+  isStopped() {
+    return this.animationFlag;
+  }
+
   update() {
     if (this.tickCounter === (this.tickPerFrame - 1)) {
       this.index = (this.index + 1) % this.endFrame;
