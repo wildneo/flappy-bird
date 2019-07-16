@@ -1,74 +1,8 @@
 import { getAsset } from './assets';
+import { setScore, fgMove, pipeGenerator } from './AdditionalMethods';
 import createSprite from './createSprite';
 import createGroup from './createGroup';
-
-function sinusMovement(speed, yPos) {
-  const feq = 5;
-  const amp = 1;
-  this.counter = this.counter || 0;
-  this.counter += speed;
-  if (this.counter > 1000) {
-    this.counter = 0;
-  }
-  this.y = yPos + Math.sin((this.counter * Math.PI / 180) * feq) * amp;
-}
-
-
-function birdMove(speed) {
-  if (this.x < -47) {
-    this.x = 0;
-  }
-  this.x -= speed;
-}
-
-function fgMove(speed) {
-  if (this.x < -47) {
-    this.x = 0;
-  }
-  this.x -= speed;
-}
-
-function setScore(score) {
-  this.score = score.toString().split('').map(e => +e);
-
-  if (this.size !== this.score.length) {
-    this.clear();
-
-    const xOrigin = (288 - 24 * this.score.length) / 2;
-
-    this.score.forEach((e, index) => {
-      this.appendChild(createSprite(getAsset('digits_lg.png'), [xOrigin + 24 * index, 50, 0]));
-    });
-  }
-
-  this.children.forEach((item, i) => {
-    const child = item;
-    child.index = this.score[i];
-  });
-}
-
-function pipeGenerator(speed) {
-  this.counter = this.counter || 0;
-  this.counter += speed;
-
-  const gap = 100;
-
-  if (this.counter >= 200) {
-    this.counter = 0;
-    const x = 288;
-    const y = Math.round(Math.random() * -100) - 100;
-    const topPipe = this.appendChild(createSprite(getAsset('pipes.png'), [x, y]));
-    const bottomPipe = this.appendChild(createSprite(getAsset('pipes.png'), [x, topPipe.y + topPipe.height + gap]));
-    bottomPipe.index = 1;
-  }
-
-  if (this.size > 6) this.group.shift();
-
-  this.children.forEach((item) => {
-    const child = item;
-    child.x -= speed;
-  });
-}
+import GameOver from './GameOver';
 
 export default class TestScene {
   constructor(game, layer) {
@@ -92,46 +26,58 @@ export default class TestScene {
     this.tap = this.layer.getChild('tap');
 
     this.ready.offset = 1;
-    this.bird.offset = this.game.constants.BIRD.color;
-    this.bg.offset = this.game.constants.BACKGROUND.theme;
+    // this.bird.offset = this.game.constants.BIRD.color;
+    // this.bg.offset = this.game.constants.BACKGROUND.theme;
 
-    // this.bird.alpha = 0.2;
     // console.log(this.score);
 
+    this.accel = 0;
+    this.angle = 0;
     this.counter = 0;
-    this.alpha = 100;
+    this.counter2 = 0;
+    this.opacity = 100;
   }
 
   update(dt) {
+    this.gravity = this.game.constants.GRAVITY;
     this.speed = this.game.constants.SPEED * dt;
 
-    if (this.alpha > 0) {
-      this.alpha -= 5;
+    // Opacity
+    if (this.opacity > 0) {
+      this.opacity -= 5;
     }
-    this.ready.opacity = this.alpha;
-    this.tap.opacity = this.alpha;
+    this.ready.opacity = this.opacity;
+    this.tap.opacity = this.opacity;
 
-
-    // Bird stand by mode
-    // sinusMovement.call(this.bird, this.speed, this.bird.y);
-
+    setScore.call(this.score, 999);
     fgMove.call(this.fg, this.speed);
-
-    // this.counter += 1;
-    // setScore.call(this.score, this.counter);
-    this.gravity = this.game.constants.GRAVITY;
-    this.counter += this.gravity;
-    this.currentSpeed = Math.min(50, this.counter);
-    this.bird.y += this.currentSpeed;
-    this.currentAngle = Math.min(90, this.angle);
-
-    if (this.game.checkKeyPress(32)) {
-      this.counter = -this.gravity * 15;
-    }
-
     pipeGenerator.call(this.pipes, this.speed);
 
-    console.log(this.alpha);
+    this.accel += this.gravity;
+
+    if (this.bird.isPlaying()) {
+      this.counter += 1;
+    }
+    // falling
+    if (this.counter >= 30) {
+      this.bird.stop();
+      this.angle += 5;
+    }
+    this.bird.y += Math.min(50, this.accel);
+    this.bird.angle = Math.min(90, this.angle);
+
+    // Boost
+    if (this.game.checkKeyPress(32)) {
+      this.bird.play();
+      this.accel = -this.gravity * 15;
+      this.angle = -20;
+      this.counter = 0;
+    }
+    this.counter2 += 1;
+    if (this.counter2 > 200) {
+      this.game.setScene(GameOver, this.layer);
+    }
+    // console.log();
   }
 
   render(dt, cvs, ctx) {

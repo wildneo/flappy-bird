@@ -1,12 +1,6 @@
 import { getAsset } from './assets';
+import { standBy, fgMove } from './AdditionalMethods';
 import createSprite from './createSprite';
-import createGroup from './createGroup';
-
-function sinusMovement(counter, yPos) {
-  const feq = 3;
-  const amp = 3;
-  this.y = yPos + Math.sin((counter * Math.PI / 180) * feq) * amp;
-}
 
 export default class MainScene {
   constructor(game, layer) {
@@ -14,24 +8,30 @@ export default class MainScene {
     this.layer = layer;
     this.layer
       .add('bg', createSprite(getAsset('bg.png')))
-      .add('logo', createGroup(
-        createSprite(getAsset('titles.png'), [20, 120, 0]),
-        createSprite(getAsset('bird.png'), [220, 135, 0], 8),
-      ))
+      .add('logo', createSprite(getAsset('titles.png'), [20, 120, 0]))
+      .add('bird', createSprite(getAsset('bird.png'), [220, 130, 0], 8))
+      .add('btnPlay', createSprite(getAsset('btn-3.png'), [20, 300, 0]))
+      .add('btnChart', createSprite(getAsset('btn-3.png'), [150, 300, 0]))
       .add('fg', createSprite(getAsset('fg.png'), [0, 400, 0]));
 
     this.logo = this.layer.getChild('logo');
+    this.bird = this.layer.getChild('bird');
     this.fg = this.layer.getChild('fg');
+    this.btnPlay = this.layer.getChild('btnPlay');
+    this.btnChart = this.layer.getChild('btnChart');
+
+    this.btnChart.offset = 1;
 
     this.counter = 0;
-    this.speed = this.game.constants.SPEED;
     // console.log(this.logo.y);
   }
 
   update(dt) {
+    this.speed = this.game.constants.SPEED * dt;
+    standBy.call(this.logo, this.speed, 110);
+    standBy.call(this.bird, this.speed, 120);
+    fgMove.call(this.fg, this.speed);
     // console.log(this.logo.y);
-    this.counter += this.speed * dt;
-    sinusMovement.call(this.logo, this.counter, 30);
   }
 
   render(dt, cvs, ctx) {
