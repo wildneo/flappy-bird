@@ -5,13 +5,16 @@ const attach = (assetName, ...spritesheet) => (
 const ASSET_SPRITESHEETS = [
   attach('fg.png', 1, 1),
   attach('tap.png', 1, 1),
+  attach('board.png', 1, 1),
   attach('bg.png', 2, 1),
   attach('bird.png', 3, 3),
   attach('pipes.png', 2, 2),
   attach('titles.png', 1, 3),
-  attach('digits_lg.png', 10, 1),
+  attach('digits.png', 5, 2),
+  attach('digits_lg.png', 5, 2),
   attach('btn-1.png', 2, 1),
   attach('btn-2.png', 1, 3),
+  attach('btn-3.png', 2, 1),
 ];
 
 const assets = {};
