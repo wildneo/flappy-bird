@@ -6,7 +6,7 @@ export default (context, sprite) => {
 
   ctx.save();
   ctx.globalAlpha = sprite.spriteAlpha;
-  ctx.translate(x - halfWidth, y - halfHeight);
+  ctx.translate(x + halfWidth, y + halfHeight);
   ctx.rotate(angle * Math.PI / 180);
   // TODO: Scale.
   ctx.drawImage(
@@ -15,8 +15,8 @@ export default (context, sprite) => {
     sprite.sY,
     sprite.width,
     sprite.height,
-    halfWidth,
-    halfHeight,
+    -halfWidth,
+    -halfHeight,
     sprite.width,
     sprite.height,
   );
