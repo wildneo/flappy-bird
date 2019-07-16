@@ -21,8 +21,8 @@ export default class Game {
     this.startGameLoop();
   }
 
-  setScene(Scene) {
-    this.activeScene = new Scene(this, new Layer());
+  setScene(Scene, layer = new Layer()) {
+    this.activeScene = new Scene(this, layer);
   }
 
   initInput() {
