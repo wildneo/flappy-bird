@@ -21,8 +21,12 @@ export default class Game {
     this.startGameLoop();
   }
 
-  setScene(Scene) {
-    this.activeScene = new Scene(this, new Layer());
+  setScene(Scene, thisScene) {
+    this.activeScene = new Scene(this, new Layer(), thisScene);
+  }
+
+  resume(Scene) {
+    this.activeScene = Scene;
   }
 
   initInput() {
@@ -42,6 +46,8 @@ export default class Game {
       const x = pageX - this.cvs.offsetLeft;
       const y = pageY - this.cvs.offsetTop;
       this.mouseClickPosition = { x, y };
+
+      console.log(this.mouseClickPosition);
     });
   }
 
@@ -86,6 +92,17 @@ export default class Game {
     if (this.lastState[keyCode] !== this.keyPressed) {
       this.lastState[keyCode] = this.keyPressed;
       return this.keyPressed;
+    }
+    return false;
+  }
+
+  checkClickOn(object) {
+    const { x, y, width, height } = object;
+    const { x: mX, y: mY } = this.mouseClickPosition;
+    this.mouseClickPosition = {};
+
+    if (mX >= x && mX <= x + width && mY >= y && mY <= y + height) {
+      return true;
     }
     return false;
   }
