@@ -5,18 +5,16 @@ import createGroup from './createGroup';
 import GameOver from './GameOver';
 import Pause from './Pause';
 
-export default class TestScene {
-  constructor(game, layer) {
+export default class Intro {
+  constructor(game, layer, lastScene) {
     this.game = game;
-    this.layer = layer;
+    this.layer = lastScene.layer;
     this.layer
-      .add('bg', createSprite(getAsset('bg.png')))
-      .add('bird', createSprite(getAsset('bird.png'), [70, 200, 0], 8))
+      .delete('fg')
       .add('pipes', createGroup())
-      .add('fg', createSprite(getAsset('fg.png'), [0, 400, 0]))
-      .add('tap', createSprite(getAsset('tap.png'), [87, 210, 0]))
+      .add('score', createGroup())
       .add('pause', createSprite(getAsset('btn-1.png'), [10, 10, 0]))
-      .add('ready', createSprite(getAsset('titles.png'), [44, 120, 0]));
+      .add('fg', createSprite(getAsset('fg.png'), [0, 400, 0]));
 
     this.bg = this.layer.getChild('bg');
     this.fg = this.layer.getChild('fg');
@@ -27,16 +25,9 @@ export default class TestScene {
     this.ready = this.layer.getChild('ready');
     this.pause = this.layer.getChild('pause');
 
-    this.ready.offset = 1;
-    this.bird.offset = this.game.constants.BIRD.color;
-    this.bg.offset = this.game.constants.BACKGROUND.theme;
-
-    // console.log(this.score);
-
     this.accel = 0;
     this.angle = 0;
     this.counter = 0;
-    this.counter2 = 0;
     this.opacity = 100;
   }
 
@@ -76,7 +67,6 @@ export default class TestScene {
       this.angle = -20;
       this.counter = 0;
     }
-    this.counter2 += 1;
 
     // Pause
     if (this.game.checkClickOn(this.pause)) {
@@ -86,6 +76,7 @@ export default class TestScene {
     if (this.bird.y > 375) {
       this.game.setScene(GameOver, this);
     }
+
     // console.log();
   }
 

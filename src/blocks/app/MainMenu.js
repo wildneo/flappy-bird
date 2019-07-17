@@ -3,7 +3,7 @@ import { standBy, fgMove } from './AdditionalMethods';
 import createSprite from './createSprite';
 import Intro from './Intro';
 
-export default class MainScene {
+export default class MainMenu {
   constructor(game, layer) {
     this.game = game;
     this.layer = layer;

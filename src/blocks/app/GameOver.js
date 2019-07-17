@@ -1,29 +1,32 @@
 import { getAsset } from './assets';
 import createSprite from './createSprite';
+import Intro from './GamePlay';
+import MainMenu from './MainMenu';
 
 export default class GameOver {
   constructor(game, layer, lastScene) {
     this.game = game;
-    this.savedScene = lastScene;
-    this.savedScene.layer
-      .delete('score')
-      .delete('pause');
-    this.layer = layer;
+    this.layer = lastScene.layer;
     this.layer
+      .delete('pause')
+      .delete('score')
       .add('gameOver', createSprite(getAsset('titles.png'), [44, 100, 0]))
       .add('btnOk', createSprite(getAsset('btn-2.png'), [41, 340, 0]))
-      .add('btnShare', createSprite(getAsset('btn-2.png'), [167, 340, 0]))
+      .add('btnMenu', createSprite(getAsset('btn-2.png'), [167, 340, 0]))
       .add('board', createSprite(getAsset('board.png'), [24, 512, 0]));
 
     this.board = this.layer.getChild('board');
     this.gameOver = this.layer.getChild('gameOver');
     this.btnOk = this.layer.getChild('btnOk');
-    this.btnShare = this.layer.getChild('btnShare');
+    this.btnMenu = this.layer.getChild('btnMenu');
 
     this.gameOver.offset = 2;
+    this.btnOk.offset = 2;
+
     this.btnOk.opacity = 0;
-    this.btnShare.opacity = 0;
+    this.btnMenu.opacity = 0;
     this.gameOver.opacity = 0;
+
     this.counter = 0;
 
     // console.log();
@@ -40,14 +43,21 @@ export default class GameOver {
       this.board.y -= this.speed;
     } else {
       this.btnOk.opacity = 100;
-      this.btnShare.opacity = 100;
+      this.btnMenu.opacity = 100;
+
+      if (this.game.checkClickOn(this.btnOk)) {
+        this.game.setScene(MainMenu);
+      }
+      if (this.game.checkClickOn(this.btnMenu)) {
+        console.log(123);
+        
+        this.game.setScene(MainMenu);
+      }
+
     }
-    // standBy.call(this.gameOver, this.speed, 100);
-    // console.log(this.board.y);
   }
 
   render(dt, cvs, ctx) {
-    this.savedScene.layer.render(ctx);
     this.layer.render(ctx);
   }
 }
