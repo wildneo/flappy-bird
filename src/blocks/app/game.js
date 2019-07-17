@@ -21,13 +21,17 @@ export default class Game {
     this.startGameLoop();
   }
 
-  setScene(Scene, layer = new Layer()) {
-    this.activeScene = new Scene(this, layer);
+  setScene(Scene, thisScene) {
+    this.activeScene = new Scene(this, new Layer(), thisScene);
+  }
+
+  resumeTo(Scene) {
+    this.activeScene = Scene;
   }
 
   initInput() {
     this.keys = {};
-    this.mouseClickPosition = {};
+    this.clickPosition = {};
 
     document.addEventListener('keydown', (event) => {
       const { which } = event;
@@ -37,11 +41,19 @@ export default class Game {
       const { which } = event;
       this.keys = { [which]: false };
     });
-    this.cvs.addEventListener('click', (event) => {
+    this.cvs.addEventListener('mousedown', (event) => {
       const { pageX, pageY } = event;
       const x = pageX - this.cvs.offsetLeft;
       const y = pageY - this.cvs.offsetTop;
-      this.mouseClickPosition = { x, y };
+
+      this.clickPosition = { x, y };
+
+      console.log(this.clickPosition);
+    });
+    this.cvs.addEventListener('mouseup', () => {
+      this.clickPosition = { x: null, y: null };
+
+      console.log(this.clickPosition);
     });
   }
 
@@ -86,6 +98,21 @@ export default class Game {
     if (this.lastState[keyCode] !== this.keyPressed) {
       this.lastState[keyCode] = this.keyPressed;
       return this.keyPressed;
+    }
+    return false;
+  }
+
+  checkClickOn(object) {
+    // eslint-disable-next-line object-curly-newline
+    const { x, y, width, height } = object;
+    const { x: mX, y: mY } = this.clickPosition;
+    this.clickPosition = {};
+
+    if (mX >= x
+      && mX <= x + width
+      && mY >= y
+      && mY <= y + height) {
+      return true;
     }
     return false;
   }

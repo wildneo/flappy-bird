@@ -17,7 +17,8 @@ export default class Storage {
   }
 
   delete(key) {
-    return this.storage.delete(key);
+    this.storage.delete(key);
+    return this;
   }
 
   clear() {

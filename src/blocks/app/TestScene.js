@@ -3,6 +3,7 @@ import { setScore, fgMove, pipeGenerator } from './AdditionalMethods';
 import createSprite from './createSprite';
 import createGroup from './createGroup';
 import GameOver from './GameOver';
+import Pause from './Pause';
 
 export default class TestScene {
   constructor(game, layer) {
@@ -15,19 +16,21 @@ export default class TestScene {
       .add('score', createGroup())
       .add('fg', createSprite(getAsset('fg.png'), [0, 400, 0]))
       .add('tap', createSprite(getAsset('tap.png'), [87, 210, 0]))
+      .add('pause', createSprite(getAsset('btn-1.png'), [10, 10, 0]))
       .add('ready', createSprite(getAsset('titles.png'), [44, 120, 0]));
 
+    this.bg = this.layer.getChild('bg');
+    this.fg = this.layer.getChild('fg');
+    this.tap = this.layer.getChild('tap');
+    this.bird = this.layer.getChild('bird');
     this.pipes = this.layer.getChild('pipes');
     this.score = this.layer.getChild('score');
-    this.bird = this.layer.getChild('bird');
-    this.fg = this.layer.getChild('fg');
-    this.bg = this.layer.getChild('bg');
     this.ready = this.layer.getChild('ready');
-    this.tap = this.layer.getChild('tap');
+    this.pause = this.layer.getChild('pause');
 
     this.ready.offset = 1;
-    // this.bird.offset = this.game.constants.BIRD.color;
-    // this.bg.offset = this.game.constants.BACKGROUND.theme;
+    this.bird.offset = this.game.constants.BIRD.color;
+    this.bg.offset = this.game.constants.BACKGROUND.theme;
 
     // console.log(this.score);
 
@@ -58,6 +61,7 @@ export default class TestScene {
     if (this.bird.isPlaying()) {
       this.counter += 1;
     }
+
     // falling
     if (this.counter >= 30) {
       this.bird.stop();
@@ -74,8 +78,14 @@ export default class TestScene {
       this.counter = 0;
     }
     this.counter2 += 1;
-    if (this.counter2 > 200) {
-      this.game.setScene(GameOver, this.layer);
+
+    // Pause
+    if (this.game.checkClickOn(this.pause)) {
+      this.game.setScene(Pause, this);
+    }
+
+    if (this.bird.y > 375) {
+      this.game.setScene(GameOver, this);
     }
     // console.log();
   }

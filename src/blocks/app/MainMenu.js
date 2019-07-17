@@ -1,6 +1,7 @@
 import { getAsset } from './assets';
 import { standBy, fgMove } from './AdditionalMethods';
 import createSprite from './createSprite';
+import Intro from './Intro';
 
 export default class MainScene {
   constructor(game, layer) {
@@ -14,16 +15,19 @@ export default class MainScene {
       .add('btnChart', createSprite(getAsset('btn-3.png'), [150, 300, 0]))
       .add('fg', createSprite(getAsset('fg.png'), [0, 400, 0]));
 
+    this.bg = this.layer.getChild('bg');
+    this.fg = this.layer.getChild('fg');
     this.logo = this.layer.getChild('logo');
     this.bird = this.layer.getChild('bird');
-    this.fg = this.layer.getChild('fg');
     this.btnPlay = this.layer.getChild('btnPlay');
     this.btnChart = this.layer.getChild('btnChart');
+
+    this.bird.offset = this.game.constants.BIRD.color;
+    this.bg.offset = this.game.constants.BACKGROUND.theme;
 
     this.btnChart.offset = 1;
 
     this.counter = 0;
-    // console.log(this.logo.y);
   }
 
   update(dt) {
@@ -31,7 +35,10 @@ export default class MainScene {
     standBy.call(this.logo, this.speed, 110);
     standBy.call(this.bird, this.speed, 120);
     fgMove.call(this.fg, this.speed);
-    // console.log(this.logo.y);
+
+    if (this.game.checkClickOn(this.btnPlay)) {
+      this.game.setScene(Intro, this);
+    }
   }
 
   render(dt, cvs, ctx) {
