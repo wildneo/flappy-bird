@@ -1,5 +1,12 @@
 import Layer from './Layer';
 
+const isInside = (pos, obj) => (
+  pos.x >= obj.x
+  && pos.x <= obj.x + obj.width
+  && pos.y >= obj.y
+  && pos.y <= obj.y + obj.height
+);
+
 const CONSTANTS = Object.freeze({
   SPEED: 150,
   GRAVITY: 0.4,
@@ -31,7 +38,8 @@ export default class Game {
 
   initInput() {
     this.keys = {};
-    this.clickPosition = {};
+    this.objects = [];
+    // this.clickPosition = {};
 
     document.addEventListener('keydown', (event) => {
       const { which } = event;
@@ -41,20 +49,25 @@ export default class Game {
       const { which } = event;
       this.keys = { [which]: false };
     });
-    this.cvs.addEventListener('mousedown', (event) => {
+    this.cvs.addEventListener('click', (event) => {
       const { pageX, pageY } = event;
-      const x = pageX - this.cvs.offsetLeft;
-      const y = pageY - this.cvs.offsetTop;
+      const pos = {
+        x: pageX - this.cvs.offsetLeft,
+        y: pageY - this.cvs.offsetTop,
+      };
+      this.objects.forEach((obj) => {
+        if (isInside(pos, obj)) {
+          this.clicked = obj;
+        }
+      });
 
-      this.clickPosition = { x, y };
-
-      console.log(this.clickPosition);
+      console.log('click');
     });
-    this.cvs.addEventListener('mouseup', () => {
-      this.clickPosition = { x: null, y: null };
+    // this.cvs.addEventListener('mouseup', () => {
+    //   this.clickPosition = { x: null, y: null };
 
-      console.log(this.clickPosition);
-    });
+    //   console.log(this.clickPosition);
+    // });
   }
 
   update(dt) {
@@ -103,17 +116,6 @@ export default class Game {
   }
 
   checkClickOn(object) {
-    // eslint-disable-next-line object-curly-newline
-    const { x, y, width, height } = object;
-    const { x: mX, y: mY } = this.clickPosition;
-    this.clickPosition = {};
-
-    if (mX >= x
-      && mX <= x + width
-      && mY >= y
-      && mY <= y + height) {
-      return true;
-    }
-    return false;
+    return object === this.clicked;
   }
 }
