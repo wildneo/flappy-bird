@@ -11,6 +11,8 @@ export default class Pause {
 
     this.pause = this.layer.getChild('pause');
     this.pause.offset = 1;
+
+    this.game.objects.push(this.pause);
   }
 
   update(dt) {

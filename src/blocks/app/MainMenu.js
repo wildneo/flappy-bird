@@ -2,7 +2,6 @@ import { getAsset } from './assets';
 import { standBy, fgMove } from './AdditionalMethods';
 import createSprite from './createSprite';
 import Intro from './Intro';
-import { classBody } from '@babel/types';
 
 export default class MainMenu {
   constructor(game, layer) {
@@ -40,14 +39,12 @@ export default class MainMenu {
     fgMove.call(this.fg, this.speed);
 
     if (this.game.checkClickOn(this.btnPlay)) {
-      this.btnPlay.y += 10;
-      console.log('btnPlay click');
-      this.game.clicked = [];
+      this.game.setScene(Intro, this);
     }
+
     if (this.game.checkClickOn(this.btnChart)) {
       this.btnChart.y += 10;
       console.log('btnChart click');
-      this.game.clicked = [];
     }
   }
 

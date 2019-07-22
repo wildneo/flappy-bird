@@ -60,14 +60,7 @@ export default class Game {
           this.clicked = obj;
         }
       });
-
-      console.log('click');
     });
-    // this.cvs.addEventListener('mouseup', () => {
-    //   this.clickPosition = { x: null, y: null };
-
-    //   console.log(this.clickPosition);
-    // });
   }
 
   update(dt) {
@@ -116,6 +109,10 @@ export default class Game {
   }
 
   checkClickOn(object) {
-    return object === this.clicked;
+    if (object === this.clicked) {
+      this.clicked = [];
+      return true;
+    }
+    return false;
   }
 }

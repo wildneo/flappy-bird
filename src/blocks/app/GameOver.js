@@ -29,6 +29,9 @@ export default class GameOver {
 
     this.counter = 0;
 
+    this.game.objects.push(this.btnOk);
+    this.game.objects.push(this.btnMenu);
+
     // console.log();
   }
 
@@ -46,14 +49,11 @@ export default class GameOver {
       this.btnMenu.opacity = 100;
 
       if (this.game.checkClickOn(this.btnOk)) {
-        this.game.setScene(MainMenu);
+        this.game.setScene(Intro, this);
       }
       if (this.game.checkClickOn(this.btnMenu)) {
-        console.log(123);
-        
         this.game.setScene(MainMenu);
       }
-
     }
   }
 

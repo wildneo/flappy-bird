@@ -29,6 +29,8 @@ export default class Intro {
     this.angle = 0;
     this.counter = 0;
     this.opacity = 100;
+
+    this.game.objects.push(this.pause);
   }
 
   update(dt) {
