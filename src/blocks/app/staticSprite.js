@@ -1,4 +1,4 @@
-import Sprite from './Sprite';
+import Sprite from './sprite';
 import drawSprite from './drawSprite';
 
 export default class StaticSprite extends Sprite {
