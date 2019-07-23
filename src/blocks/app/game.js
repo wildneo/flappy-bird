@@ -1,4 +1,5 @@
 import Layer from './Layer';
+import detectOverlap from './detectOverlap';
 
 const isInside = (pos, obj) => (
   pos.x >= obj.x
@@ -97,6 +98,12 @@ export default class Game {
     requestAnimationFrame(draw);
   }
 
+  pressKey(keyCode, cb, scene) {
+    if (this.checkKeyPress(keyCode)) {
+      cb.call(scene);
+    }
+  }
+
   checkKeyPress(keyCode) {
     this.keyPressed = !!this.keys[keyCode];
     this.lastState = this.lastState || {};
@@ -108,11 +115,21 @@ export default class Game {
     return false;
   }
 
-  checkClickOn(object) {
+  clickOn(object, cb, scene) {
     if (object === this.clicked) {
       this.clicked = [];
-      return true;
+      cb.call(scene);
     }
-    return false;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  collision(obj1, obj2, cb, scene) {
+    obj1.entry.forEach((collider) => {
+      obj2.entry.forEach((collidee) => {
+        if (detectOverlap(collider, collidee)) {
+          cb.call(scene);
+        }
+      });
+    });
   }
 }

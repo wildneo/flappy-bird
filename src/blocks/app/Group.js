@@ -8,7 +8,7 @@ export default class Group {
     return this.group.length;
   }
 
-  get children() {
+  get entry() {
     return this.group;
   }
 
@@ -30,16 +30,16 @@ export default class Group {
     // this.group.forEach(object => object.x += this.position.x);
   }
 
-  set y(y) {
-    this.position.y = y;
-    this.group.forEach((object) => {
-      const Y = object.y + this.position.y;
-      const offset = Y - object.y;
-      // console.log(offset);
+  // set y(y) {
+  //   this.position.y = y;
+  //   this.group.forEach((object) => {
+  //     const Y = object.y + this.position.y;
+  //     const offset = Y - object.y;
+  //     // console.log(offset);
       
-      object.y = offset + this.position.y;
-    });
-  }
+  //     object.y = offset + this.position.y;
+  //   });
+  // }
 
   get x() {
     return this.position.x;

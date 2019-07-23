@@ -102,4 +102,24 @@ export default class Sprite {
   get image() {
     return this.img;
   }
+
+  get entry() {
+    return [this];
+  }
+
+  get left() {
+    return this.x;
+  }
+
+  get top() {
+    return this.y;
+  }
+
+  get right() {
+    return this.x + this.width;
+  }
+
+  get bottom() {
+    return this.y + this.height;
+  }
 }
