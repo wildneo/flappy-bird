@@ -10,15 +10,17 @@ export default class Pause {
       .add('pause', createSprite(getAsset('btn-1.png'), [10, 10, 0]));
 
     this.pause = this.layer.getChild('pause');
+
     this.pause.offset = 1;
 
     this.game.objects.push(this.pause);
   }
 
   update(dt) {
-    if (this.game.checkClickOn(this.pause)) {
+    // Resume
+    this.game.clickOn(this.pause, () => {
       this.game.resumeTo(this.savedScene);
-    }
+    }, this);
   }
 
   render(dt, cvs, ctx) {

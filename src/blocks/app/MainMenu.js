@@ -22,9 +22,6 @@ export default class MainMenu {
     this.btnPlay = this.layer.getChild('btnPlay');
     this.btnChart = this.layer.getChild('btnChart');
 
-    this.bird.offset = this.game.constants.BIRD.color;
-    this.bg.offset = this.game.constants.BACKGROUND.theme;
-
     this.btnChart.offset = 1;
 
     this.counter = 0;
@@ -38,14 +35,13 @@ export default class MainMenu {
     standBy.call(this.bird, this.speed, 120);
     fgMove.call(this.fg, this.speed);
 
-    if (this.game.checkClickOn(this.btnPlay)) {
-      this.game.setScene(Intro, this);
-    }
+    this.game.clickOn(this.btnPlay, () => {
+      this.game.setScene(Intro);
+    }, this);
 
-    if (this.game.checkClickOn(this.btnChart)) {
-      this.btnChart.y += 10;
+    this.game.clickOn(this.btnChart, () => {
       console.log('btnChart click');
-    }
+    }, this);
   }
 
   render(dt, cvs, ctx) {

@@ -1,15 +1,17 @@
 import { getAsset } from './assets';
 import createSprite from './createSprite';
-import Intro from './GamePlay';
 import MainMenu from './MainMenu';
+import Intro from './Intro';
 
 export default class GameOver {
   constructor(game, layer, lastScene) {
     this.game = game;
-    this.layer = lastScene.layer;
-    this.layer
+    this.savedLayer = lastScene.layer;
+    this.layer = layer;
+    this.savedLayer
       .delete('pause')
-      .delete('score')
+      .delete('score');
+    this.layer
       .add('gameOver', createSprite(getAsset('titles.png'), [44, 100, 0]))
       .add('btnOk', createSprite(getAsset('btn-2.png'), [41, 340, 0]))
       .add('btnMenu', createSprite(getAsset('btn-2.png'), [167, 340, 0]))
@@ -48,16 +50,21 @@ export default class GameOver {
       this.btnOk.opacity = 100;
       this.btnMenu.opacity = 100;
 
-      if (this.game.checkClickOn(this.btnOk)) {
-        this.game.setScene(Intro, this);
-      }
-      if (this.game.checkClickOn(this.btnMenu)) {
+      this.game.clickOn(this.btnOk, () => {
+        this.game.setScene(Intro);
+      }, this);
+
+      this.game.clickOn(this.btnMenu, () => {
         this.game.setScene(MainMenu);
-      }
+      }, this);
+
+      this.game.pressKey(32, () => {
+      }, this);
     }
   }
 
   render(dt, cvs, ctx) {
+    this.savedLayer.render(ctx);
     this.layer.render(ctx);
   }
 }

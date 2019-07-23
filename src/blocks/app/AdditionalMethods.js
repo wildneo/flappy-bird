@@ -33,13 +33,14 @@ export function setScore(score) {
     });
   }
 
-  this.children.forEach((item, i) => {
+  this.entry.forEach((item, i) => {
     const child = item;
     child.index = this.score[i];
   });
 }
 
 export function pipeGenerator(speed) {
+  this.score = this.score || 0;
   this.counter = this.counter || 0;
   this.counter += speed;
 
@@ -52,11 +53,12 @@ export function pipeGenerator(speed) {
     const topPipe = this.appendChild(createSprite(getAsset('pipes.png'), [x, y]));
     const bottomPipe = this.appendChild(createSprite(getAsset('pipes.png'), [x, topPipe.y + topPipe.height + gap]));
     bottomPipe.index = 1;
+    this.score = this.size === 2 ? 0 : this.score += 1;
   }
 
-  if (this.size > 6) this.group.shift();
+  if (this.size > 4) this.group.shift();
 
-  this.children.forEach((item) => {
+  this.entry.forEach((item) => {
     const child = item;
     child.x -= speed;
   });
