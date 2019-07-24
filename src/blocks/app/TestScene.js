@@ -4,11 +4,14 @@ import createSprite from './createSprite';
 import createGroup from './createGroup';
 import GameOver from './GameOver';
 import Pause from './Pause';
+import Sprite from './Sprite/Sprite';
 
 export default class TestScene {
   constructor(game, layer) {
     this.game = game;
-    console.log(this.game);
+    this.test = new Sprite(getAsset('bird'), 34, 24);
+    this.test.frame.index = 1;
+    console.log(this.test);
     
     // this.layer = layer;
     // this.layer

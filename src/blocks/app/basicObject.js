@@ -4,19 +4,6 @@ export default class BasicObject {
     this.position = {};
   }
 
-  distanceTo(object) {
-    return {
-      dX: this.x - object.x,
-      dY: this.y - object.y,
-    };
-  }
-
-  set attrs(attrs) {
-    Object.entries(attrs).forEach(([key, value]) => {
-      this[key] = value;
-    });
-  }
-
   set pos(position) {
     const [x, y, angle] = position;
     this.position = { x, y, angle };
