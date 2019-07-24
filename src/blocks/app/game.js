@@ -1,4 +1,6 @@
 import Layer from './Layer';
+import Storage from './Storage';
+import ObjectCreator from './create';
 import detectOverlap from './detectOverlap';
 
 const isInside = (pos, obj) => (
@@ -21,6 +23,8 @@ const CONSTANTS = Object.freeze({
 
 export default class Game {
   constructor(canvas, scene) {
+    this.gameObjects = new Storage();
+    this.create = new ObjectCreator(this.gameObjects);
     this.cvs = canvas;
     this.ctx = this.cvs.getContext('2d');
     this.constants = CONSTANTS;

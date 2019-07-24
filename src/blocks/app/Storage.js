@@ -12,8 +12,16 @@ export default class Storage {
     return this.storage.get(key);
   }
 
-  getAll() {
+  getKeys() {
+    return [...this.storage.keys()];
+  }
+
+  getValues() {
     return [...this.storage.values()];
+  }
+
+  getEntries() {
+    return [...this.storage];
   }
 
   delete(key) {

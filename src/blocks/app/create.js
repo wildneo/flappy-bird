@@ -1,9 +1,16 @@
-import GameObject from './GameObject';
-import createSprite from './createSprite';
+import { getAsset } from './assets';
+import AnimatedSprite from './AnimatedSprite';
+import StaticSprite from './StaticSprite';
 
-export default (asset, initPosition = [], animationSpeed) => {
-  const gameObject = new GameObject();
-  gameObject.addEntry(createSprite(asset, initPosition, animationSpeed));
+export default class ObjectCreator {
+  constructor(gameObjects) {
+    this.gameObjects = gameObjects;
+  }
 
-  return gameObject;
-};
+  sprite(assetName, spritesheet, initPosition, animationSpeed) {
+    const Type = animationSpeed ? AnimatedSprite : StaticSprite;
+
+    this.gameObjects.add(assetName, new Type(getAsset(assetName), ...spritesheet, ...initPosition, animationSpeed));
+    return this;
+  }
+}
