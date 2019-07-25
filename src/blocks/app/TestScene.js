@@ -4,16 +4,25 @@ import createSprite from './createSprite';
 import createGroup from './createGroup';
 import GameOver from './GameOver';
 import Pause from './Pause';
-import Sprite from './Sprite/Sprite';
+import Sprite from './sprite/Sprite';
 
 export default class TestScene {
   constructor(game, layer) {
     this.game = game;
-    this.test = new Sprite(getAsset('bird'), 34, 24);
-    this.test.frame.index = 1;
-    console.log(this.test);
+    this.layer = layer;
+
+    this.game.create
+      .sprite('floor', 'fg.png', [34, 24])
+      .sprite('bg', 'bg.png', [288, 512], { frame: { index: 1 } })
+      .sprite('bird', 'bird.png', [34, 24], { animation: { tickPerFrame: 8 } })
+      .sprite('pipe', 'pipes.png', [34, 24], { animation: { tickPerFrame: 8 } })
+      .sprite('tap', 'tap.png', [34, 24], { animation: { tickPerFrame: 8 } })
+      .sprite('bird', 'bird.png', [34, 24], { animation: { tickPerFrame: 8 } })
+      .sprite('bird', 'bird.png', [34, 24], { animation: { tickPerFrame: 8 } });
+    console.log(this.game.gameObjects);
+
+    // this.test = this.game.addToScene('bird');
     
-    // this.layer = layer;
     // this.layer
     //   .add('bg', createSprite(getAsset('bg.png')))
     //   .add('bird', createSprite(getAsset('bird.png'), [70, 200, 0], 8))
@@ -88,6 +97,7 @@ export default class TestScene {
   }
 
   render(dt, cvs, ctx) {
-    // this.layer.render(ctx);
+    this.layer.render(ctx);
+    // this.test.render(ctx);
   }
 }

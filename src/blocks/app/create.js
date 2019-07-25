@@ -1,16 +1,16 @@
 import { getAsset } from './assets';
-import AnimatedSprite from './AnimatedSprite';
-import StaticSprite from './StaticSprite';
+import Sprite from './sprite/Sprite';
 
 export default class ObjectCreator {
   constructor(gameObjects) {
     this.gameObjects = gameObjects;
   }
 
-  sprite(assetName, spritesheet, initPosition, animationSpeed) {
-    const Type = animationSpeed ? AnimatedSprite : StaticSprite;
-
-    this.gameObjects.add(assetName, new Type(getAsset(assetName), ...spritesheet, ...initPosition, animationSpeed));
+  sprite(name, texture, imgSize, attrs) {
+    const sprite = this.gameObjects.add(name, new Sprite(getAsset(texture), ...imgSize));
+    Object.entries(attrs).forEach(([key, value]) => {
+      sprite[key] = value;
+    });
     return this;
   }
 }

@@ -33,6 +33,10 @@ export default class Game {
     this.startGameLoop();
   }
 
+  addToScene(key) {
+    return this.gameObjects.get(key);
+  }
+
   setScene(Scene, thisScene) {
     this.activeScene = new Scene(this, new Layer(), thisScene);
   }

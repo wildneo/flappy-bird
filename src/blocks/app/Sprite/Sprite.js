@@ -1,34 +1,28 @@
-import basicObject from '../basicObject';
+import BasicObject from '../basicObject';
+import spriteRender from './spriteRender';
+import Animation from './Animation';
 import Frame from './Frame';
 
-export default class Sprite {
-  constructor(image, width, height, options) {
+export default class Sprite extends BasicObject {
+  constructor(image, width, height) {
+    super('Sprite');
     this.img = image;
     this.frameWidth = width;
     this.frameHeight = height;
+    this.animation = new Animation(this);
     this.frame = new Frame(this);
-    this.position = { x: 0, y: 0, angle: 0 };
   }
 
-  // Position
-  set x(x) {
-    this.position.x = x;
+  get image() {
+    return this.img;
   }
 
-  set y(y) {
-    this.position.y = y;
+  get sX() {
+    return this.width * this.frame.horizontIndex;
   }
 
-  set angle(angle) {
-    this.position.angle = angle;
-  }
-
-  get x() {
-    return this.position.x;
-  }
-
-  get y() {
-    return this.position.y;
+  get sY() {
+    return this.height * this.frame.verticalIndex;
   }
 
   // Opacity
@@ -36,40 +30,25 @@ export default class Sprite {
     this.spriteAlpha = alpha;
   }
 
+  get alpha() {
+    return this.objectAlpha || 1;
+  }
+
   set opacity(opacity) {
-    this.spriteAlpha = opacity >= 0 ? opacity / 100 : 0;
+    this.objectAlpha = opacity >= 0 ? opacity / 100 : 0;
   }
 
   get opacity() {
-    return this.spriteAlpha * 100;
+    return this.alpha * 100;
   }
 
-  get alpha() {
-    return this.spriteAlpha || 1;
-  }
-
+  // Dimensions
   get width() {
     return this.frameWidth;
   }
 
   get height() {
     return this.frameHeight;
-  }
-
-  get sX() {
-    return this.width * this.horizontIndex;
-  }
-
-  get sY() {
-    return this.height * this.verticalIndex;
-  }
-
-  get image() {
-    return this.img;
-  }
-
-  get entry() {
-    return [this];
   }
 
   get left() {
@@ -86,5 +65,12 @@ export default class Sprite {
 
   get bottom() {
     return this.y + this.height;
+  }
+
+  render(ctx) {
+    if (this.animation.flag) {
+      this.animation.update();
+    }
+    spriteRender(ctx, this);
   }
 }

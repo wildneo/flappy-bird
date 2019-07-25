@@ -5,7 +5,7 @@ export default class Storage {
 
   add(key, data) {
     this.storage.set(key, data);
-    return this;
+    return this.get(key);
   }
 
   get(key) {

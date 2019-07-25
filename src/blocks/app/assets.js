@@ -18,24 +18,23 @@
 // ];
 
 const assetList = [
-  ['frontground', 'img/fg.png'],
-  ['tap', 'img/tap.png'],
-  ['board', 'img/board.png'],
-  ['background', 'img/bg.png'],
-  ['bird', 'img/bird.png'],
-  ['pipe', 'img/pipes.png'],
-  ['titles', 'img/titles.png'],
-  ['digits', 'img/digits.png'],
-  ['digits_lg', 'img/digits_lg.png'],
-  ['btn-1', 'img/btn-1.png'],
-  ['btn-2', 'img/btn-2.png'],
-  ['btn-3', 'img/btn-3.png'],
+  'fg.png',
+  'bg.png',
+  'tap.png',
+  'bird.png',
+  'pipes.png',
+  'btn-1.png',
+  'btn-2.png',
+  'btn-3.png',
+  'board.png',
+  'titles.png',
+  'digits.png',
+  'digits_lg.png',
 ];
 
 const assets = {};
 
-const downloadAsset = item => new Promise((resolve) => {
-  const [assetName, assetUrl] = item;
+const downloadAsset = assetName => new Promise((resolve) => {
   const asset = new Image();
   asset.onload = () => {
     // eslint-disable-next-line no-console
@@ -43,7 +42,7 @@ const downloadAsset = item => new Promise((resolve) => {
     assets[assetName] = asset;
     resolve();
   };
-  asset.src = assetUrl;
+  asset.src = `img/${assetName}`;
 });
 
 const downloadPromise = Promise.all(assetList.map(downloadAsset));

@@ -1,7 +1,7 @@
 export default class BasicObject {
   constructor(type) {
     this.type = type;
-    this.position = {};
+    this.position = { x: 0, y: 0, angle: 0 };
   }
 
   set pos(position) {
@@ -14,7 +14,7 @@ export default class BasicObject {
   }
 
   get x() {
-    return this.position.x || 0;
+    return this.position.x;
   }
 
   set y(y) {
@@ -22,7 +22,7 @@ export default class BasicObject {
   }
 
   get y() {
-    return this.position.y || 0;
+    return this.position.y;
   }
 
   set angle(angle) {
@@ -30,6 +30,6 @@ export default class BasicObject {
   }
 
   get angle() {
-    return this.position.angle || 0;
+    return this.position.angle;
   }
 }

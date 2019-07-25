@@ -1,14 +1,7 @@
 export default class Frame {
   constructor(sprite) {
-    this.sprite = sprite;
-  }
-
-  get framePerRow() {
-    return Math.floor(this.sprite.image.width / this.sprite.width);
-  }
-
-  get framePerCol() {
-    return Math.floor(this.sprite.image.height / this.sprite.height);
+    this.framePerRow = Math.floor(sprite.image.width / sprite.width);
+    this.framePerCol = Math.floor(sprite.image.height / sprite.height);
   }
 
   set index(index) {
@@ -37,11 +30,11 @@ export default class Frame {
   }
 
   set offset(offset) {
-    this.spriteOffset = offset;
+    this.frameOffset = offset;
     this.index = this.index;
   }
 
   get offset() {
-    return this.spriteOffset || 0;
+    return this.frameOffset || 0;
   }
 }
