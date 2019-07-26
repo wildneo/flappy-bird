@@ -33,7 +33,7 @@ export default class Game {
     this.startGameLoop();
   }
 
-  addToScene(key) {
+  addOnLayer(key) {
     return this.gameObjects.get(key);
   }
 

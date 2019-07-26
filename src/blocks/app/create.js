@@ -1,16 +1,13 @@
-import { getAsset } from './assets';
-import Sprite from './sprite/Sprite';
+import spriteCreator from './sprite/spriteCreator';
 
 export default class ObjectCreator {
   constructor(gameObjects) {
     this.gameObjects = gameObjects;
+    this.spriteCreator = spriteCreator;
   }
 
-  sprite(name, texture, imgSize, attrs) {
-    const sprite = this.gameObjects.add(name, new Sprite(getAsset(texture), ...imgSize));
-    Object.entries(attrs).forEach(([key, value]) => {
-      sprite[key] = value;
-    });
+  sprite(key, texture, size, attrs = {}) {
+    this.gameObjects.add(key, () => spriteCreator(texture, size, attrs));
     return this;
   }
 }

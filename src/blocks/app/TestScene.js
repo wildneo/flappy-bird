@@ -6,31 +6,29 @@ import GameOver from './GameOver';
 import Pause from './Pause';
 import Sprite from './sprite/Sprite';
 
-export default class TestScene {
+export default class TestScene extends{
   constructor(game, layer) {
     this.game = game;
     this.layer = layer;
 
-    this.game.create
-      .sprite('floor', 'fg.png', [34, 24])
-      .sprite('bg', 'bg.png', [288, 512], { frame: { index: 1 } })
-      .sprite('bird', 'bird.png', [34, 24], { animation: { tickPerFrame: 8 } })
-      .sprite('pipe', 'pipes.png', [34, 24], { animation: { tickPerFrame: 8 } })
-      .sprite('tap', 'tap.png', [34, 24], { animation: { tickPerFrame: 8 } })
-      .sprite('bird', 'bird.png', [34, 24], { animation: { tickPerFrame: 8 } })
-      .sprite('bird', 'bird.png', [34, 24], { animation: { tickPerFrame: 8 } });
-    console.log(this.game.gameObjects);
+    this.game.create.sprite('fg', 'fg.png', [34, 24]);
+    this.game.create.sprite('bg', 'bg.png', [288, 512], { frame: { index: 1 } });
+    this.game.create.sprite('bird', 'bird.png', [34, 24], { animation: { tickPerFrame: 8 } });
+
+    this.bird = this.layer.add('bird', [70, 200]);
+
+    console.log(this.game.gameObjects.get('fg'));
 
     // this.test = this.game.addToScene('bird');
-    
+
     // this.layer
     //   .add('bg', createSprite(getAsset('bg.png')))
     //   .add('bird', createSprite(getAsset('bird.png'), [70, 200, 0], 8))
     //   .add('pipes', createGroup());
-        // .add('fg', createSprite(getAsset('fg.png'), [0, 400, 0]))
-        // .add('tap', createSprite(getAsset('tap.png'), [87, 210, 0]))
-        // .add('pause', createSprite(getAsset('btn-1.png'), [10, 10, 0]))
-        // .add('ready', createSprite(getAsset('titles.png'), [44, 120, 0]));
+    //   .add('fg', createSprite(getAsset('fg.png'), [0, 400, 0]))
+    //   .add('tap', createSprite(getAsset('tap.png'), [87, 210, 0]))
+    //   .add('pause', createSprite(getAsset('btn-1.png'), [10, 10, 0]))
+    //   .add('ready', createSprite(getAsset('titles.png'), [44, 120, 0]));
 
     // this.bg = this.layer.getChild('bg');
     // this.pipes = this.layer.getChild('pipes');
