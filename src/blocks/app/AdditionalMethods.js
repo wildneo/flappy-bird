@@ -1,4 +1,4 @@
-import { getAsset } from './assets';
+import { getAsset } from './core/assets';
 import createSprite from './createSprite';
 
 export function standBy(speed, yPos) {
