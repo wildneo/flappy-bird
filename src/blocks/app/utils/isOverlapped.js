@@ -7,4 +7,4 @@ export default (collider, collidee) => {
   } = collidee;
 
   return !(b1 < t2 || t1 > b2 || r1 < l2 || l1 > r2);
-}
+};
