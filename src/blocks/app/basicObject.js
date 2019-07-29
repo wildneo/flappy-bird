@@ -1,11 +1,6 @@
 export default class BasicObject {
-  constructor(type) {
+  constructor(type, x = 0, y = 0, angle = 0) {
     this.type = type;
-    this.position = { x: 0, y: 0, angle: 0 };
-  }
-
-  set pos(position) {
-    const [x, y, angle] = position;
     this.position = { x, y, angle };
   }
 

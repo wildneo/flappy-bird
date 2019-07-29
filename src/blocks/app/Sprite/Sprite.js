@@ -4,8 +4,8 @@ import Animation from './Animation';
 import Frame from './Frame';
 
 export default class Sprite extends BasicObject {
-  constructor(image, width, height) {
-    super('Sprite');
+  constructor(image, width, height, x, y, angle) {
+    super('Sprite', x, y, angle);
     this.img = image;
     this.frameWidth = width;
     this.frameHeight = height;

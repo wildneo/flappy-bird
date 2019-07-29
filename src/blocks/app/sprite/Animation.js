@@ -41,6 +41,6 @@ export default class Animation {
     if (this.tickCounter === (this.tickPerFrame - 1)) {
       this.sprite.frame.index = (this.sprite.frame.index + 1) % this.endFrame;
     }
-    this.tickCounter = (this.tickCounter + 1) % this.tickPerFrame;
+    this.tickCounter = (this.tickCounter + 1) % this.tickPerFrame || 0;
   }
 }
