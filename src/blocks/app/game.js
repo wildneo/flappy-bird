@@ -18,7 +18,7 @@ const CONSTANTS = Object.freeze({
 export default class Game {
   constructor(canvas, scene) {
     this.gameObjects = new Storage();
-    this.create = new ObjectCreator(this.gameObjects);
+    this.create = new ObjectCreator(this);
     this.cvs = canvas;
     this.ctx = this.cvs.getContext('2d');
     this.constants = CONSTANTS;
@@ -54,10 +54,8 @@ export default class Game {
     });
     this.cvs.addEventListener('click', (event) => {
       const { pageX, pageY } = event;
-      const pos = {
-        x: pageX - this.cvs.offsetLeft,
-        y: pageY - this.cvs.offsetTop,
-      };
+      const { offsetLeft, offsetTop } = this.cvs;
+      const pos = [pageX - offsetLeft, pageY - offsetTop];
       this.objects.forEach((obj) => {
         if (isInside(...pos, obj)) {
           this.clicked = obj;

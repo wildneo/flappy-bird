@@ -1,13 +1,13 @@
 import spriteCreator from './sprite/spriteCreator';
 
 export default class ObjectCreator {
-  constructor(gameObjects) {
-    this.gameObjects = gameObjects;
+  constructor(game) {
+    this.game = game;
     this.spriteCreator = spriteCreator;
   }
 
   sprite(key, texture, size, attrs = {}) {
-    this.gameObjects.add(key, () => spriteCreator(texture, size, attrs));
+    this.game.gameObjects.add(key, () => spriteCreator(texture, size, attrs));
     return this;
   }
 }
