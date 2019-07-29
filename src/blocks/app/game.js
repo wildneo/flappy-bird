@@ -1,14 +1,8 @@
 import Layer from './Layer';
 import Storage from './Storage';
 import ObjectCreator from './create';
-import detectOverlap from './detectOverlap';
-
-const isInside = (pos, obj) => (
-  pos.x >= obj.x
-  && pos.x <= obj.x + obj.width
-  && pos.y >= obj.y
-  && pos.y <= obj.y + obj.height
-);
+import isInside from './utils/isInside';
+import isOverlapped from './utils/isOverlapped';
 
 const CONSTANTS = Object.freeze({
   SPEED: 150,
@@ -24,7 +18,7 @@ const CONSTANTS = Object.freeze({
 export default class Game {
   constructor(canvas, scene) {
     this.gameObjects = new Storage();
-    this.create = new ObjectCreator(this.gameObjects);
+    this.create = new ObjectCreator(this);
     this.cvs = canvas;
     this.ctx = this.cvs.getContext('2d');
     this.constants = CONSTANTS;
@@ -63,12 +57,10 @@ export default class Game {
     });
     this.cvs.addEventListener('click', (event) => {
       const { pageX, pageY } = event;
-      const pos = {
-        x: pageX - this.cvs.offsetLeft,
-        y: pageY - this.cvs.offsetTop,
-      };
+      const { offsetLeft, offsetTop } = this.cvs;
+      const pos = [pageX - offsetLeft, pageY - offsetTop];
       this.objects.forEach((obj) => {
-        if (isInside(pos, obj)) {
+        if (isInside(...pos, obj)) {
           this.clicked = obj;
         }
       });
@@ -137,7 +129,7 @@ export default class Game {
   collision(obj1, obj2, cb, scene) {
     obj1.entry.forEach((collider) => {
       obj2.entry.forEach((collidee) => {
-        if (detectOverlap(collider, collidee)) {
+        if (isOverlapped(collider, collidee)) {
           cb.call(scene);
         }
       });

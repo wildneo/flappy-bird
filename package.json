@@ -33,7 +33,9 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "lodash.merge": "^4.6.2"
+  },
   "bugs": {
     "url": "https://github.com/wildneo/flappy-bird/issues"
   },

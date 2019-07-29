@@ -1,8 +1,8 @@
 import spriteCreator from './sprite/spriteCreator';
 
 export default class ObjectCreator {
-  constructor(gameObjects) {
-    this.gameObjects = gameObjects;
+  constructor(game) {
+    this.game = game;
     this.spriteCreator = spriteCreator;
   }
 
