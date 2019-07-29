@@ -6,8 +6,8 @@ export default class ObjectCreator {
     this.spriteCreator = spriteCreator;
   }
 
-  sprite(key, texture, size, attrs = {}) {
-    this.gameObjects.add(key, () => spriteCreator(texture, size, attrs));
+  sprite(key, texture, size, attrs) {
+    this.gameObjects.add(key, spriteCreator(texture, size, attrs));
     return this;
   }
 }

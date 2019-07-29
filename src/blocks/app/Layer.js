@@ -1,36 +1,7 @@
-export default class Storage {
-  constructor(data) {
-    this.storage = new Map(data);
-  }
+import Storage from './Storage';
 
-  add(key, data) {
-    this.storage.set(key, data);
-    return this;
-  }
-
-  getChild(key) {
-    return this.storage.get(key);
-  }
-
-  get children() {
-    return [...this.storage.values()];
-  }
-
-  delete(key) {
-    this.storage.delete(key);
-    return this;
-  }
-
-  clear() {
-    this.storage.clear();
-    return this;
-  }
-
-  get size() {
-    return this.storage.size;
-  }
-
+export default class Layer extends Storage {
   render(context) {
-    this.children.forEach(object => object.render(context));
+    this.getValues().forEach(object => object.render(context));
   }
 }

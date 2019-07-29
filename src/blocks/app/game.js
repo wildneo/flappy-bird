@@ -33,12 +33,15 @@ export default class Game {
     this.startGameLoop();
   }
 
-  addOnLayer(key) {
-    return this.gameObjects.get(key);
+  addToScene(key, position) {
+    const gameObject = this.gameObjects.get(key);
+    return this.sceneLayer.add(key, gameObject(position));
   }
 
-  setScene(Scene, thisScene) {
-    this.activeScene = new Scene(this, new Layer(), thisScene);
+  setScene(Scene) {
+    const parentScene = this.activeScene || null;
+    this.sceneLayer = new Layer();
+    this.activeScene = new Scene(this, this.sceneLayer, parentScene);
   }
 
   resumeTo(Scene) {
