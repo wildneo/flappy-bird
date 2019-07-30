@@ -4,6 +4,13 @@ export default class BasicObject {
     this.position = { x, y, angle };
   }
 
+  resetPos(...position) {
+    const [x = 0, y = 0, angle = 0] = position;
+    this.x = x;
+    this.y = y;
+    this.angle = angle;
+  }
+
   set x(x) {
     this.position.x = x;
   }

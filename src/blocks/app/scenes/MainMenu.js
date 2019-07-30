@@ -1,47 +1,39 @@
-import { standBy, fgMove } from '../AdditionalMethods';
+import { standBy as standByMode, fgMove } from '../AdditionalMethods';
+import StandBy from './StandBy';
 
 export default class MainMenu {
   constructor(game, layer) {
     this.game = game;
     this.layer = layer;
-    // this.layer
-    //   .add('bg', createSprite(getAsset('bg.png')))
-    //   .add('logo', createSprite(getAsset('titles.png'), [20, 120, 0]))
-    //   .add('bird', createSprite(getAsset('bird.png'), [220, 130, 0], 8))
-    //   .add('btnPlay', createSprite(getAsset('btn-3.png'), [20, 300, 0]))
-    //   .add('btnChart', createSprite(getAsset('btn-3.png'), [150, 300, 0]))
-    //   .add('fg', createSprite(getAsset('fg.png'), [0, 400, 0]));
 
-    this.bg = this.layer.getChild('bg');
-    this.fg = this.layer.getChild('fg');
-    this.logo = this.layer.getChild('logo');
-    this.bird = this.layer.getChild('bird');
-    this.btnPlay = this.layer.getChild('btnPlay');
-    this.btnChart = this.layer.getChild('btnChart');
+    this.bg = this.game.addToScene('bg');
+    this.fg = this.game.addToScene('fg', [0, 400]);
+    this.logo = this.game.addToScene('logo', [20, 120]);
+    this.bird = this.game.addToScene('bird', [220, 130]);
+    this.playGame = this.game.addToScene('playGame', [20, 300]);
+    this.settings = this.game.addToScene('settings', [150, 300]);
 
-    this.btnChart.offset = 1;
+    this.game.input.addToClick(this.playGame, this.settings);
 
     this.counter = 0;
-    this.game.objects.push(this.btnPlay);
-    this.game.objects.push(this.btnChart);
   }
 
   update(dt) {
     this.speed = this.game.constants.SPEED * dt;
-    standBy.call(this.logo, this.speed, 110);
-    standBy.call(this.bird, this.speed, 120);
+    standByMode.call(this.logo, this.speed, 110);
+    standByMode.call(this.bird, this.speed, 120);
     fgMove.call(this.fg, this.speed);
 
-    this.game.clickOn(this.btnPlay, () => {
-      // this.game.setScene(Intro);
+    this.game.input.clickOn(this.playGame, () => {
+      this.game.setScene(StandBy);
     }, this);
 
-    this.game.clickOn(this.btnChart, () => {
-      console.log('btnChart click');
+    this.game.input.clickOn(this.settings, () => {
+      console.log('settings click');
     }, this);
   }
 
-  render(dt, cvs, ctx) {
+  render(dt, ctx) {
     this.layer.render(ctx);
   }
 }

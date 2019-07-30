@@ -31,11 +31,11 @@ export default class Sprite extends BasicObject {
   }
 
   get alpha() {
-    return this.objectAlpha || 1;
+    return this.spriteAlpha || 1;
   }
 
   set opacity(opacity) {
-    this.objectAlpha = opacity >= 0 ? opacity / 100 : 0;
+    this.spriteAlpha = opacity >= 0 ? opacity / 100 : 0;
   }
 
   get opacity() {

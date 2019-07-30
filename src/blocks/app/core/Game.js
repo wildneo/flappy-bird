@@ -27,9 +27,14 @@ export default class Game {
     this.startGameLoop();
   }
 
-  addToScene(key, position = []) {
+  addToScene(key, position) {
     const gameObject = this.gameObjects.get(key);
     return this.sceneLayer.add(key, gameObject(position));
+  }
+
+  getObject(key) {
+    const gameObject = this.gameObjects.get(key);
+    return gameObject();
   }
 
   setScene(Scene) {
