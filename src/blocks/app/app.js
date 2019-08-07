@@ -39,7 +39,7 @@ const createGame = () => {
     .sprite('ready', 'titles.png', [200, 60], { frame: { offset: 1 } })
     .sprite('gameOver', 'titles.png', [200, 60], { frame: { offset: 2 } })
     .sprite('digits', 'digits.png', [70, 20])
-    .sprite('digits_lg', 'digits_lg.png', [120, 36])
+    .sprite('digits_lg', 'digits_lg.png', [24, 36])
     .sprite('bg', 'bg.png', [288, 512], { frame: { offset: 0 } })
     .sprite('bird', 'bird.png', [34, 24], { animation: { tickPerFrame: 8 } })
     .sprite('topPipe', 'pipes.png', [52, 320], { frame: { offset: 0 } })
@@ -52,7 +52,7 @@ const startGame = (newGame) => {
   newGame
     .setScene('GamePlay')
     .startGameLoop();
-}
+};
 
 downloadAssets()
   .then(createGame)

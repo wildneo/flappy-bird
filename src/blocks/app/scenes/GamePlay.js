@@ -1,4 +1,4 @@
-import { setScore, fgMove, pipeGenerator } from '../AdditionalMethods';
+import { setScore, fgMove, addPipeLine, jump } from '../AdditionalMethods';
 // import GameOver from './GameOver';
 // import Pause from './Pause';
 
@@ -19,24 +19,24 @@ export default class GamePlay {
     this.ready = this.game.addTo(this.layer, 'ready', [44, 120]);
     this.scoreDisplay = this.game.addTo(this.layer, 'scoreDisplay');
 
-    this.bird.body.gravity.y = 1200;
-
     this.angle = 0;
     this.counter = 0;
     this.opacity = 100;
-    this.scoreCounter = 0;
-
     this.timer = 0;
+    this.speed = -150;
+
+    this.bird.body.gravity.y = 1200;
+    this.fg.body.velocity.x = this.speed;
+
+    this.jump = jump.bind(this);
+    this.fgMove = fgMove.bind(this);
+    this.setScore = setScore.bind(this);
+    this.addPipeLine = addPipeLine.bind(this);
 
     this.game.input.addToClick(this.pause, this.bg);
   }
 
   update(dt) {
-    if (this.fg.x < -47) {
-      this.fg.x = 0;
-    }
-    this.fg.body.velocity.x = -150;
-
     // Opacity
     if (this.opacity > 0) {
       this.opacity -= 5;
@@ -44,49 +44,35 @@ export default class GamePlay {
     this.ready.opacity = this.opacity;
     this.tap.opacity = this.opacity;
 
-    // setScore.call(this.score, this.scoreCounter);
+    this.fgMove();
+    this.setScore();
 
-    this.speed = 100 * dt;
-    this.timer += this.speed;
+    this.s = 100 * dt;
+    this.timer += this.s;
     if (this.timer >= 150) {
       this.timer = 0;
-      const topPipe = this.game.addTo(this.pipes, 'topPipe', [288, Math.round(Math.random() * -100) - 100]);
-      const btmPipe = this.game.addTo(this.pipes, 'btmPipe', [288, topPipe.y + topPipe.height + 100]);
-      topPipe.body.velocity.x = -150;
-      btmPipe.body.velocity.x = -150;
-      topPipe.outOfBoundsDestroy = true;
-      btmPipe.outOfBoundsDestroy = true;
+      this.addPipeLine();
     }
-
-    // this.scoreCounter = this.pipes.score;
-
-    // this.accel += this.gravity;
 
     if (this.bird.animation.isPlaying()) {
-      this.counter += 1;
+      this.counter += this.s;
     }
 
-    // falling
-    if (this.counter >= 35) {
+    // Falling
+    if (this.counter >= 60) {
       this.bird.animation.stop();
       this.angle += 5;
     }
     this.bird.angle = Math.min(90, this.angle);
 
-    // Boost
-    this.game.input.pressKey(32, () => {
-      this.bird.animation.play();
-      this.bird.body.velocity.y = -400;
-      this.angle = -20;
-      this.counter = 0;
-    });
+    // Jump
+    this.game.input.pressKey(32, this.jump);
+    this.game.input.clickOn(this.bg, this.jump);
 
-    // this.game.input.clickOn(this.bg, () => {
-    //   this.bird.animation.play();
-    //   this.accel = -this.gravity * 15;
-    //   this.angle = -20;
-    //   this.counter = 0;
-    // });
+    // Pause
+    this.game.input.clickOn(this.pause, () => {
+      this.game.setScene('Pause');
+    });
 
     // Сollision
     // this.game.collision(this.pipes, this.bird, () => {
@@ -97,10 +83,6 @@ export default class GamePlay {
     //   this.game.setScene(GameOver, this);
     // }, this);
 
-    // Pause
-    // this.game.input.clickOn(this.pause, () => {
-    //   this.game.setScene(Pause, this);
-    // });
 
     // console.log();
   }

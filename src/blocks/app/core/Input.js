@@ -40,7 +40,7 @@ export default class InputManager {
 
   pressKey(keyCode, cb) {
     if (this.checkKeyPress(keyCode)) {
-      cb.call(this.game.activeScene);
+      cb();
     }
   }
 
@@ -57,7 +57,7 @@ export default class InputManager {
   clickOn(object, cb) {
     if (object === this.clicked) {
       this.clicked = [];
-      cb.call(this.game.activeScene);
+      cb();
     }
   }
 

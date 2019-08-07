@@ -1,6 +1,3 @@
-import { getAsset } from './core/assets';
-import createSprite from './createSprite';
-
 export function standBy(speed, yPos) {
   const feq = 4;
   const amp = 4;
@@ -12,54 +9,56 @@ export function standBy(speed, yPos) {
   this.y = yPos + Math.sin((this.counter * Math.PI / 180) * feq) * amp;
 }
 
-
-export function fgMove(speed) {
-  if (this.x < -47) {
-    this.x = 0;
+export function fgMove() {
+  if (this.fg.x < -47) {
+    this.fg.x = 0;
   }
-  this.x -= speed;
 }
 
-export function setScore(score) {
-  this.score = score.toString().split('').map(e => +e);
+export function jump() {
+  this.bird.animation.play();
+  this.bird.body.velocity.y = -400;
+  this.angle = -20;
+  this.counter = 0;
+}
 
-  if (this.size !== this.score.length) {
-    this.clear();
+export function falling() {
+  if (this.counter >= 60) {
+    this.bird.animation.stop();
+    this.angle += 5;
+  }
+  this.bird.angle = Math.min(90, this.angle);
+}
 
-    const xOrigin = (288 - 24 * this.score.length) / 2;
+export function setScore() {
+  const score = this.score || 0;
+  const splitScore = score.toString().split('').map(e => +e);
 
-    this.score.forEach((e, index) => {
-      this.appendChild(createSprite(getAsset('digits_lg.png'), [xOrigin + 24 * index, 50, 0]));
+  if (this.scoreDisplay.size !== splitScore.length) {
+    this.scoreDisplay.clear();
+
+    const origin = (288 - 24 * splitScore.length) / 2;
+
+    splitScore.forEach((e, index) => {
+      this.game.addTo(this.scoreDisplay, 'digits_lg', [origin + 24 * index, 50]);
     });
   }
 
-  this.entry.forEach((item, i) => {
+  this.scoreDisplay.children().forEach((item, i) => {
     const child = item;
-    child.index = this.score[i];
+    child.frame.index = splitScore[i];
   });
 }
 
-export function pipeGenerator(speed) {
-  this.score = this.score || 0;
-  this.counter = this.counter || 0;
-  this.counter += speed;
-
+export function addPipeLine() {
+  this.score = this.score + 1 || 0;
   const gap = 100;
-
-  if (this.counter >= 200) {
-    this.counter = 0;
-    const x = 288;
-    const y = Math.round(Math.random() * -100) - 100;
-    const topPipe = this.appendChild(createSprite(getAsset('pipes.png'), [x, y]));
-    const bottomPipe = this.appendChild(createSprite(getAsset('pipes.png'), [x, topPipe.y + topPipe.height + gap]));
-    bottomPipe.index = 1;
-    this.score = this.size === 2 ? 0 : this.score += 1;
-  }
-
-  if (this.size > 4) this.group.shift();
-
-  this.entry.forEach((item) => {
-    const child = item;
-    child.x -= speed;
-  });
+  const random = Math.round(Math.random() * -gap) - gap;
+  const addPipe = (key, position) => {
+    const pipe = this.game.addTo(this.pipes, key, position);
+    pipe.body.velocity.x = this.speed;
+    pipe.outOfBoundsDestroy = true;
+  };
+  addPipe('topPipe', [288, random]);
+  addPipe('btmPipe', [288, random + 320 + gap]);
 }
