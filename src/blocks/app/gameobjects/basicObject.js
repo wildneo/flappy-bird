@@ -1,37 +1,42 @@
+import Body from '../physics/Body';
+
 export default class BasicObject {
-  constructor(type, x = 0, y = 0, angle = 0) {
+  constructor(parent, type, x = 0, y = 0, angle = 0) {
+    this.parent = parent;
     this.type = type;
-    this.position = { x, y, angle };
+    this.body = new Body(x, y, angle);
   }
 
-  resetPos(...position) {
-    const [x = 0, y = 0, angle = 0] = position;
-    this.x = x;
-    this.y = y;
-    this.angle = angle;
+  reset() {
+    this.body.position.reset();
+    this.body.angle = 0;
   }
 
   set x(x) {
-    this.position.x = x;
+    this.body.position.x = x;
   }
 
   get x() {
-    return this.position.x;
+    return this.body.position.x;
   }
 
   set y(y) {
-    this.position.y = y;
+    this.body.position.y = y;
   }
 
   get y() {
-    return this.position.y;
+    return this.body.position.y;
   }
 
   set angle(angle) {
-    this.position.angle = angle;
+    this.body.angle = angle;
   }
 
   get angle() {
-    return this.position.angle;
+    return this.body.angle;
+  }
+
+  get position() {
+    return { x: this.x, y: this.y, angle: this.angle };
   }
 }

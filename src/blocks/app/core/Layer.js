@@ -1,7 +1,7 @@
-import Storage from './Storage';
+import Group from '../gameobjects/group/Group';
 
-export default class Layer extends Storage {
-  render(context) {
-    this.getValues().forEach(object => object.render(context));
+export default class Layer extends Group {
+  constructor() {
+    super(null, 'Layer');
   }
 }

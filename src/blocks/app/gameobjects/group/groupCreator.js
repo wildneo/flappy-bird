@@ -1,9 +1,8 @@
 import addAttributes from '../../utils/addAttributes';
 import Group from './Group';
 
-export default attrs => (position = []) => {
-  const [x, y, angle] = position;
-  const newGroup = new Group(x, y, angle);
+export default attrs => (parent) => {
+  const newGroup = new Group(parent);
   if (attrs) {
     addAttributes(newGroup, attrs);
   }

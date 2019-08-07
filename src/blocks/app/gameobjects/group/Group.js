@@ -1,28 +1,36 @@
 import BasicObject from '../basicObject';
 
 export default class Group extends BasicObject {
-  constructor(x, y, angle) {
-    super('Group', x, y, angle);
-    this.group = [];
+  constructor(parent, type = 'Group') {
+    super(parent, type);
+    this.entries = new Set();
   }
 
   get size() {
-    return this.group.length;
+    return this.entries.size;
   }
 
-  getEntries() {
-    return this.group;
+  children() {
+    return [...this.entries.values()];
   }
 
-  add(...children) {
-    this.group.push(...children);
+  add(...objects) {
+    objects.forEach(object => this.entries.add(object));
+  }
+
+  remove(object) {
+    this.entries.delete(object);
   }
 
   clear() {
-    this.group = [];
+    this.entries.clear();
   }
 
-  render(context) {
-    this.group.forEach(object => object.render(context));
+  update(dt, cvs, ctx) {
+    this.children().forEach(object => object.update(dt, cvs, ctx));
+  }
+
+  render(dt, cvs, ctx) {
+    this.children().forEach(object => object.render(dt, cvs, ctx));
   }
 }

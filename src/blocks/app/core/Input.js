@@ -38,9 +38,9 @@ export default class InputManager {
     });
   }
 
-  pressKey(keyCode, cb, scene) {
+  pressKey(keyCode, cb) {
     if (this.checkKeyPress(keyCode)) {
-      cb.call(scene);
+      cb.call(this.game.activeScene);
     }
   }
 
@@ -54,10 +54,10 @@ export default class InputManager {
     return false;
   }
 
-  clickOn(object, cb, scene) {
+  clickOn(object, cb) {
     if (object === this.clicked) {
       this.clicked = [];
-      cb.call(scene);
+      cb.call(this.game.activeScene);
     }
   }
 

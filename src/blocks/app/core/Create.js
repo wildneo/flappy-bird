@@ -7,13 +7,18 @@ export default class ObjectCreator {
     this.game = game;
   }
 
+  scene(key, scene) {
+    this.game.gameScenes.set(key, scene);
+    return this;
+  }
+
   sprite(key, texture, size, attrs) {
-    this.game.gameObjects.add(key, spriteCreator(getAsset(texture), size, attrs));
+    this.game.gameObjects.set(key, spriteCreator(getAsset(texture), size, attrs));
     return this;
   }
 
   group(key, children, attrs) {
-    this.game.gameObjects.add(key, groupCreator(children, attrs));
+    this.game.gameObjects.set(key, groupCreator(children, attrs));
     return this;
   }
 }

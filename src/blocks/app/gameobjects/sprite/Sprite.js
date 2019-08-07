@@ -2,15 +2,33 @@ import BasicObject from '../basicObject';
 import spriteRender from './spriteRender';
 import Animation from './Animation';
 import Frame from './Frame';
+import isOverlapped from '../../utils/isOverlapped';
 
 export default class Sprite extends BasicObject {
-  constructor(image, width, height, x, y, angle) {
-    super('Sprite', x, y, angle);
+  constructor(parent, image, width, height, x, y, angle) {
+    super(parent, 'Sprite', x, y, angle);
     this.img = image;
     this.frameWidth = width;
     this.frameHeight = height;
     this.animation = new Animation(this);
     this.frame = new Frame(this);
+    this.outOfBoundsDestroy = false;
+  }
+
+  update(dt, cvs, ctx) {
+    if (this.animation.flag) {
+      this.animation.update(dt);
+    }
+    const canvas = {
+      left: 0,
+      top: 0,
+      right: cvs.width,
+      bottom: cvs.height,
+    };
+    if (this.outOfBoundsDestroy && !isOverlapped(this, canvas)) {
+      this.parent.remove(this);
+    }
+    this.body.update(dt);
   }
 
   get image() {
@@ -67,10 +85,7 @@ export default class Sprite extends BasicObject {
     return this.y + this.height;
   }
 
-  render(ctx) {
-    if (this.animation.flag) {
-      this.animation.update();
-    }
+  render(dt, cvs, ctx) {
     spriteRender(ctx, this);
   }
 }

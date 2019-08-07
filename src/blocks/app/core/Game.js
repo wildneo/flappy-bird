@@ -1,59 +1,45 @@
 import Layer from './Layer';
-import Storage from './Storage';
 import InputManager from './Input';
 import isOverlapped from '../utils/isOverlapped';
 import ObjectCreator from './Create';
 
-const CONSTANTS = Object.freeze({
-  SPEED: 150,
-  GRAVITY: 0.4,
-  BACKGROUND: {
-    theme: 1,
-  },
-  BIRD: {
-    color: 3,
-  },
-});
-
 export default class Game {
-  constructor(canvas, scene) {
+  constructor(canvas) {
     this.cvs = canvas;
     this.ctx = this.cvs.getContext('2d');
-    this.gameObjects = new Storage();
-    this.input = new InputManager(this);
     this.create = new ObjectCreator(this);
-    this.constants = CONSTANTS;
-    this.setScene(scene);
-    this.startGameLoop();
+    this.input = new InputManager(this);
+    this.gameObjects = new Map();
+    this.gameScenes = new Map();
   }
 
-  addToScene(key, position) {
+  addTo(group, key, position) {
     const gameObject = this.gameObjects.get(key);
-    return this.sceneLayer.add(key, gameObject(position));
+    const result = gameObject(group, position);
+    group.add(result);
+    return result;
   }
 
-  getObject(key) {
-    const gameObject = this.gameObjects.get(key);
-    return gameObject();
-  }
-
-  setScene(Scene) {
+  setScene(key) {
+    const Scene = this.gameScenes.get(key);
     const parentScene = this.activeScene || null;
     this.sceneLayer = new Layer();
     this.activeScene = new Scene(this, this.sceneLayer, parentScene);
+    return this;
   }
 
   resumeTo(Scene) {
     this.activeScene = Scene;
   }
 
-  update(dt) {
-    this.activeScene.update(dt);
+  update(dt, cvs, ctx) {
+    this.sceneLayer.update(dt, cvs, ctx);
+    this.activeScene.update(dt, cvs, ctx);
   }
 
-  render(dt) {
+  render(dt, cvs, ctx) {
     this.ctx.save();
-    this.activeScene.render(dt, this.ctx);
+    this.sceneLayer.render(dt, cvs, ctx);
     this.ctx.restore();
   }
 
@@ -70,15 +56,16 @@ export default class Game {
 
       while (dt > step) {
         dt -= step;
-        this.update(step);
+        this.update(step, this.cvs, this.ctx);
       }
       last = now;
 
-      this.render(dt * fps);
+      this.render(dt * fps, this.cvs, this.ctx);
 
       requestAnimationFrame(draw);
     };
     requestAnimationFrame(draw);
+    return this;
   }
 
   // eslint-disable-next-line class-methods-use-this
