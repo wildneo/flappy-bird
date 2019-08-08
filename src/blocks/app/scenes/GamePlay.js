@@ -1,4 +1,4 @@
-import { setScore, fgMove, addPipeLine, jump } from '../AdditionalMethods';
+import { setScore, floorMoving, addPipeLine, jump } from '../AdditionalMethods';
 // import GameOver from './GameOver';
 // import Pause from './Pause';
 
@@ -13,7 +13,7 @@ export default class GamePlay {
     this.bg = this.game.addTo(this.layer, 'bg');
     this.bird = this.game.addTo(this.layer, 'bird', [70, 200]);
     this.pipes = this.game.addTo(this.layer, 'pipes');
-    this.fg = this.game.addTo(this.layer, 'fg', [0, 400]);
+    this.floor = this.game.addTo(this.layer, 'fg', [0, 400]);
     this.tap = this.game.addTo(this.layer, 'tap', [87, 210]);
     this.pause = this.game.addTo(this.layer, 'pause', [10, 10]);
     this.ready = this.game.addTo(this.layer, 'ready', [44, 120]);
@@ -25,11 +25,11 @@ export default class GamePlay {
     this.timer = 0;
     this.speed = -150;
 
-    this.bird.body.gravity.y = 1200;
-    this.fg.body.velocity.x = this.speed;
+    // this.bird.body.gravity.y = 1200;
+    this.floor.body.velocity.x = this.speed;
 
     this.jump = jump.bind(this);
-    this.fgMove = fgMove.bind(this);
+    this.floorMoving = floorMoving.bind(this);
     this.setScore = setScore.bind(this);
     this.addPipeLine = addPipeLine.bind(this);
 
@@ -44,7 +44,7 @@ export default class GamePlay {
     this.ready.opacity = this.opacity;
     this.tap.opacity = this.opacity;
 
-    this.fgMove();
+    this.floorMoving();
     this.setScore();
 
     this.s = 100 * dt;
@@ -75,13 +75,14 @@ export default class GamePlay {
     });
 
     // Сollision
-    // this.game.collision(this.pipes, this.bird, () => {
-    //   this.game.setScene(GameOver, this);
-    // }, this);
+    this.game.collision(this.bird, this.pipes, () => {
+      // this.game.setScene(GameOver, this);
+      console.log('Ops!');
+    });
 
-    // this.game.collision(this.bird, this.fg, () => {
-    //   this.game.setScene(GameOver, this);
-    // }, this);
+    this.game.collision(this.bird, this.floor, () => {
+      // this.game.setScene(GameOver, this);
+    }, this);
 
 
     // console.log();

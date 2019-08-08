@@ -9,9 +9,9 @@ export function standBy(speed, yPos) {
   this.y = yPos + Math.sin((this.counter * Math.PI / 180) * feq) * amp;
 }
 
-export function fgMove() {
-  if (this.fg.x < -47) {
-    this.fg.x = 0;
+export function floorMoving() {
+  if (this.floor.x < -47) {
+    this.floor.x = 0;
   }
 }
 

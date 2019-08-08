@@ -68,14 +68,17 @@ export default class Game {
     return this;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  collision(obj1, obj2, cb, scene) {
-    obj1.entry.forEach((collider) => {
-      obj2.entry.forEach((collidee) => {
-        if (isOverlapped(collider, collidee)) {
-          cb.call(scene);
-        }
+  collision(obj1, obj2, cb) {
+    if (obj1.type === 'Group') {
+      obj1.children().forEach((child) => {
+        this.collision(child, obj2, cb);
       });
-    });
+    } else if (obj2.type === 'Group') {
+      obj2.children().forEach((child) => {
+        this.collision(obj1, child, cb);
+      });
+    } else if (isOverlapped(obj1, obj2)) {
+      cb();
+    }
   }
 }
