@@ -17,7 +17,7 @@ export function floorMoving() {
 
 export function jump() {
   this.bird.animation.play();
-  this.bird.body.velocity.y = -400;
+  this.bird.body.velocity.y = -350;
   this.angle = -20;
   this.counter = 0;
 }
@@ -61,4 +61,14 @@ export function addPipeLine() {
   };
   addPipe('topPipe', [288, random]);
   addPipe('btmPipe', [288, random + 320 + gap]);
+}
+
+export function endGame() {
+  this.bird.animation.stop();
+  this.floor.body.velocity.reset();
+  this.pipes.children().forEach((pipe) => {
+    pipe.body.velocity.reset();
+  });
+  this.pause.destroy();
+  this.game.setScene('GameOver');
 }

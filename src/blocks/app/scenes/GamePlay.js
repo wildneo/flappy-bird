@@ -1,4 +1,4 @@
-import { setScore, floorMoving, addPipeLine, jump } from '../AdditionalMethods';
+import { setScore, floorMoving, addPipeLine, jump, endGame } from '../AdditionalMethods';
 // import GameOver from './GameOver';
 // import Pause from './Pause';
 
@@ -23,15 +23,17 @@ export default class GamePlay {
     this.counter = 0;
     this.opacity = 100;
     this.timer = 0;
-    this.speed = -150;
+    this.speed = -120;
 
-    // this.bird.body.gravity.y = 1200;
+    this.bird.body.gravity.y = 1200;
+    this.bird.body.velocity.y = -400;
     this.floor.body.velocity.x = this.speed;
 
     this.jump = jump.bind(this);
     this.floorMoving = floorMoving.bind(this);
     this.setScore = setScore.bind(this);
     this.addPipeLine = addPipeLine.bind(this);
+    this.endGame = endGame.bind(this);
 
     this.game.input.addToClick(this.pause, this.bg);
   }
@@ -76,14 +78,12 @@ export default class GamePlay {
 
     // Сollision
     this.game.collision(this.bird, this.pipes, () => {
-      // this.game.setScene(GameOver, this);
-      console.log('Ops!');
+      this.endGame();
     });
 
     this.game.collision(this.bird, this.floor, () => {
-      // this.game.setScene(GameOver, this);
-    }, this);
-
+      this.endGame();
+    });
 
     // console.log();
   }

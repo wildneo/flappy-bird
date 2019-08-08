@@ -2,9 +2,9 @@ import { downloadAssets } from './core/assets';
 import TestScene from './scenes/TestScene';
 // import Intro from './scenes/Intro';
 import GamePlay from './scenes/GamePlay';
-// import StandBy from './scenes/StandBy';
+import StandBy from './scenes/StandBy';
 // import MainMenu from './scenes/MainMenu';
-// import GameOver from './scenes/GameOver';
+import GameOver from './scenes/GameOver';
 // import Pause from './scenes/Pause';
 import Game from './core/Game';
 
@@ -16,9 +16,9 @@ const createGame = () => {
   newGame.create
     // .scene('Intro', Intro)
     .scene('GamePlay', GamePlay)
-    // .scene('StandBy', StandBy)
+    .scene('StandBy', StandBy)
     // .scene('MainMenu', MainMenu)
-    // .scene('GameOver', GameOver)
+    .scene('GameOver', GameOver)
     // .scene('Pause', Pause)
     .scene('TestScene', TestScene);
 
@@ -30,7 +30,7 @@ const createGame = () => {
     .sprite('goldMedal', 'medals.png', [44, 44], { frame: { offset: 2 } })
     .sprite('play', 'btn-1.png', [26, 26], { frame: { offset: 1 } })
     .sprite('pause', 'btn-1.png', [26, 26])
-    .sprite('ok', 'btn-2.png', [80, 26])
+    .sprite('ok', 'btn-2.png', [80, 28])
     .sprite('menu', 'btn-2.png', [80, 28], { frame: { offset: 1 } })
     .sprite('playGame', 'btn-3.png', [112, 69])
     .sprite('settings', 'btn-3.png', [112, 69], { frame: { offset: 1 } })
@@ -50,7 +50,7 @@ const createGame = () => {
 
 const startGame = (newGame) => {
   newGame
-    .setScene('GamePlay')
+    .setScene('StandBy')
     .startGameLoop();
 };
 

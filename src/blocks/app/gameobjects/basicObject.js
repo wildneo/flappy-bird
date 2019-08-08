@@ -7,6 +7,12 @@ export default class BasicObject {
     this.body = new Body(x, y, angle);
   }
 
+  destroy() {
+    if (this.parent !== null) {
+      this.parent.remove(this);
+    }
+  }
+
   reset() {
     this.body.position.reset();
     this.body.angle = 0;

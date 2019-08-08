@@ -26,7 +26,7 @@ export default class Sprite extends BasicObject {
       bottom: cvs.height,
     };
     if (this.outOfBoundsDestroy && !isOverlapped(this, canvas)) {
-      this.parent.remove(this);
+      this.destroy();
     }
     this.body.update(dt);
   }
