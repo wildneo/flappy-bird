@@ -17,8 +17,8 @@ export default class ObjectCreator {
     return this;
   }
 
-  group(key, children, attrs) {
-    this.game.gameObjects.set(key, groupCreator(children, attrs));
+  group(key, attrs) {
+    this.game.gameObjects.set(key, groupCreator(attrs));
     return this;
   }
 }
