@@ -1,8 +1,8 @@
 import BasicObject from '../basicObject';
 
 export default class Group extends BasicObject {
-  constructor(parent, type = 'Group') {
-    super(parent, type);
+  constructor(type = 'Group') {
+    super(type);
     this.entries = new Set();
   }
 
@@ -14,16 +14,25 @@ export default class Group extends BasicObject {
     return [...this.entries.values()];
   }
 
-  add(...objects) {
-    objects.forEach(object => this.entries.add(object));
+  add(object) {
+    object.setParent(this);
+    this.entries.add(object);
+    return object;
+  }
+
+  addMultiple(...objects) {
+    objects.forEach(object => this.add(object));
+    return this;
   }
 
   remove(object) {
     this.entries.delete(object);
+    return object;
   }
 
   clear() {
     this.entries.clear();
+    return this;
   }
 
   update(dt, cvs, ctx) {

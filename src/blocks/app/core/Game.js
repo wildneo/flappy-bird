@@ -15,9 +15,8 @@ export default class Game {
 
   addTo(group, key, position) {
     const gameObject = this.gameObjects.get(key);
-    const result = gameObject(group, position);
-    group.add(result);
-    return result;
+    const result = gameObject(position);
+    return group.add(result);
   }
 
   setScene(key) {

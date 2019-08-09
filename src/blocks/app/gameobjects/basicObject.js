@@ -1,8 +1,8 @@
 import Body from '../physics/Body';
 
 export default class BasicObject {
-  constructor(parent, type, x = 0, y = 0, angle = 0) {
-    this.parent = parent;
+  constructor(type, x = 0, y = 0, angle = 0) {
+    this.parent = null;
     this.type = type;
     this.body = new Body(x, y, angle);
   }
@@ -13,9 +13,8 @@ export default class BasicObject {
     }
   }
 
-  reset() {
-    this.body.position.reset();
-    this.body.angle = 0;
+  setParent(parent) {
+    this.parent = parent;
   }
 
   set x(x) {

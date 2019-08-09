@@ -1,8 +1,8 @@
 import addAttributes from '../../utils/addAttributes';
 import Group from './Group';
 
-export default attrs => (parent) => {
-  const newGroup = new Group(parent);
+export default attrs => () => {
+  const newGroup = new Group();
   if (attrs) {
     addAttributes(newGroup, attrs);
   }

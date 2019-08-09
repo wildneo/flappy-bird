@@ -5,8 +5,8 @@ import Frame from './Frame';
 import isOverlapped from '../../utils/isOverlapped';
 
 export default class Sprite extends BasicObject {
-  constructor(parent, image, width, height, x, y, angle) {
-    super(parent, 'Sprite', x, y, angle);
+  constructor(image, width, height, x, y, angle) {
+    super('Sprite', x, y, angle);
     this.img = image;
     this.frameWidth = width;
     this.frameHeight = height;
@@ -17,7 +17,7 @@ export default class Sprite extends BasicObject {
 
   update(dt, cvs, ctx) {
     if (this.animation.flag) {
-      this.animation.update(dt);
+      this.animation.update(dt, cvs, ctx);
     }
     const canvas = {
       left: 0,
