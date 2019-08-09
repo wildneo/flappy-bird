@@ -1,6 +1,5 @@
 import { setScore, floorMoving, addPipeLine, jump, endGame } from '../AdditionalMethods';
-// import GameOver from './GameOver';
-// import Pause from './Pause';
+import TimeEvent from '../time/TimeEvent';
 
 export default class GamePlay {
   constructor(game, layer) {
@@ -11,8 +10,8 @@ export default class GamePlay {
     this.game.create.group('scoreDisplay');
 
     this.bg = this.game.addTo(this.layer, 'bg');
-    this.bird = this.game.addTo(this.layer, 'bird', [70, 200]);
     this.pipes = this.game.addTo(this.layer, 'pipes');
+    this.bird = this.game.addTo(this.layer, 'bird', [70, 200]);
     this.floor = this.game.addTo(this.layer, 'fg', [0, 400]);
     this.tap = this.game.addTo(this.layer, 'tap', [87, 210]);
     this.pause = this.game.addTo(this.layer, 'pause', [10, 10]);
@@ -36,9 +35,17 @@ export default class GamePlay {
     this.endGame = endGame.bind(this);
 
     this.game.input.addToClick(this.pause, this.bg);
+
+    this.testTimer = new TimeEvent(600, () => {
+      this.bird.animation.stop();
+      this.angle += 5;
+    });
+    this.testTimer2 = new TimeEvent(1400, this.addPipeLine, true);
   }
 
   update(dt) {
+    this.testTimer.update(dt);
+    this.testTimer2.update(dt);
     // Opacity
     if (this.opacity > 0) {
       this.opacity -= 5;
@@ -49,22 +56,22 @@ export default class GamePlay {
     this.floorMoving();
     this.setScore();
 
-    this.s = 100 * dt;
-    this.timer += this.s;
-    if (this.timer >= 150) {
-      this.timer = 0;
-      this.addPipeLine();
-    }
+    // this.s = 100 * dt;
+    // this.timer += this.s;
+    // if (this.timer >= 150) {
+    //   this.timer = 0;
+    //   this.addPipeLine();
+    // }
 
-    if (this.bird.animation.isPlaying()) {
-      this.counter += this.s;
-    }
+    // if (this.bird.animation.isPlaying()) {
+    //   this.counter += this.s;
+    // }
 
     // Falling
-    if (this.counter >= 60) {
-      this.bird.animation.stop();
-      this.angle += 5;
-    }
+    // if (this.counter >= 60) {
+    //   this.bird.animation.stop();
+    //   this.angle += 5;
+    // }
     this.bird.angle = Math.min(90, this.angle);
 
     // Jump

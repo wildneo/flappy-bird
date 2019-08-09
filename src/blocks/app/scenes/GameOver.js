@@ -1,11 +1,12 @@
+import TimeEvent from '../time/TimeEvent';
+
 export default class GameOver {
   constructor(game, layer, parentScene) {
     this.game = game;
-    this.savedLayer = parentScene.layer;
     this.layer = layer;
 
+    this.layer.addMultiple(...parentScene.layer.children());
     this.bird = parentScene.bird;
-    this.layer.add(this.savedLayer);
     this.scoreboard = this.game.addTo(this.layer, 'scoreboard', [24, 512]);
     this.gameOver = this.game.addTo(this.layer, 'gameOver', [44, 100]);
     this.ok = this.game.addTo(this.layer, 'ok', [41, 340]);
@@ -24,9 +25,7 @@ export default class GameOver {
     // console.log();
   }
 
-  update(dt) {
-    this.speed = 400 * dt;
-
+  update() {
     if (this.bird.y > 380) {
       this.bird.body.gravity.reset();
       this.bird.body.velocity.reset();

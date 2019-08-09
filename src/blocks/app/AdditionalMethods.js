@@ -20,6 +20,7 @@ export function jump() {
   this.bird.body.velocity.y = -350;
   this.angle = -20;
   this.counter = 0;
+  this.testTimer.reset();
 }
 
 export function falling() {
