@@ -1,24 +1,29 @@
 export default class EventEmitter {
+  // Constructor to create a storage for 'EventEmitter' objects.
   constructor() {
     this.listeners = new Map();
   }
 
-  on(event, listener) {
-    this.addListener(event, listener, false);
+  // Add a listener for a given event.
+  on(event, ...listeners) {
+    this.addListeners(event, listeners, false);
   }
 
-  once(event, listener) {
-    this.addListener(event, listener, true);
+  // Add a one-time listener for a given event.
+  once(event, ...listeners) {
+    this.addListeners(event, listeners, true);
   }
 
+  // Calls each of the listeners registered for a given event.
   emit(event, ...param) {
     const listeners = this.listeners.get(event);
     listeners.forEach(({ fn }) => fn.apply(this, param));
-    // Delete 'once' listeners
+    // Remove one-time events
     const filtered = listeners.filter(({ once }) => !once);
     this.listeners.set(event, filtered);
   }
 
+  // Add a listener for a given event.
   addListener(event, listener, once) {
     if (typeof listener !== 'function') {
       throw new Error('The listener must be function');
@@ -33,6 +38,14 @@ export default class EventEmitter {
     this.listeners.set(event, [newListener]);
   }
 
+  // Add each listener from the array for a given event
+  addListeners(event, listeners, once) {
+    listeners.forEach((listener) => {
+      this.addListener(event, listener, once);
+    });
+  }
+
+  // Remove the listener of a given event.
   removeListener(event, listener) {
     const filtered = this.listeners
       .get(event)
@@ -40,7 +53,8 @@ export default class EventEmitter {
     this.listeners.set(event, filtered);
   }
 
-  removeAllListener(event) {
+  // Remove the specified event and all its listeners.
+  removeAllListeners(event) {
     this.listeners
       .delete(event);
   }
