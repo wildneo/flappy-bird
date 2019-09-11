@@ -22,8 +22,8 @@ export default class Game {
   setScene(key) {
     const Scene = this.gameScenes.get(key);
     const parentScene = this.activeScene || null;
-    this.sceneLayer = new Layer();
-    this.activeScene = new Scene(this, this.sceneLayer, parentScene);
+    const sceneLayer = new Layer();
+    this.activeScene = new Scene(this, sceneLayer, parentScene);
     return this;
   }
 
@@ -32,14 +32,17 @@ export default class Game {
   }
 
   update(dt, cvs, ctx) {
-    this.sceneLayer.update(dt, cvs, ctx);
+    if (this.activeScene.layer.update) {
+      this.activeScene.layer.update(dt, cvs, ctx);
+    }
     this.activeScene.update(dt, cvs, ctx);
   }
 
   render(dt, cvs, ctx) {
-    this.ctx.save();
-    this.sceneLayer.render(dt, cvs, ctx);
-    this.ctx.restore();
+    if (this.activeScene.render) {
+      this.activeScene.render(dt, cvs, ctx);
+    }
+    this.activeScene.layer.render(dt, cvs, ctx);
   }
 
   startGameLoop() {
