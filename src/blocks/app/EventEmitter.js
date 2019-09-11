@@ -16,6 +16,9 @@ export default class EventEmitter {
 
   // Calls each of the listeners registered for a given event.
   emit(event, ...param) {
+    if (!this.listeners.has(event)) {
+      return;
+    }
     const listeners = this.listeners.get(event);
     listeners.forEach(({ fn }) => fn.apply(this, param));
     // Remove one-time events
