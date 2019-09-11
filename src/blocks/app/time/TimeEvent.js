@@ -1,37 +1,60 @@
-export default class TimeEvent {
-  constructor(interval, cb, repeat = false) {
-    this.interval = interval;
-    this.callback = cb;
-    this.elapsed = 0;
-    this.repeatCounter = 0;
-    this.repeat = repeat;
-    this.stop = false;
+import EventEmitter from '../EventEmitter';
+
+export default class TimeEvent extends EventEmitter {
+  constructor(interval, repeat = true) {
+    super();
+    this.state = {
+      status: 'stopped',
+      interval,
+      elapsed: 0,
+      repeat,
+      repeatCounter: 0,
+    };
   }
 
   update(dt) {
-    if (this.stop) {
+    if (this.isPaused() || this.isStopped()) {
       return;
     }
-
-    this.elapsed += dt * 1000;
-
-    if (this.elapsed >= this.interval) {
-      this.repeatCounter += 1;
-      this.elapsed = 0;
-      this.callback();
-      if (!this.repeat) {
-        this.pause();
-      }
+    if (!this.state.repeat && this.state.repeatCounter > 0) {
+      this.stop();
+      return;
     }
+    if (this.state.elapsed >= this.state.interval) {
+      this.state.repeatCounter += 1;
+      this.state.elapsed = 0;
+      this.emit('onRepeat');
+    }
+    this.state.elapsed += dt * 1000;
+  }
+
+  start() {
+    this.state.status = 'work';
+    this.emit('onStart');
   }
 
   pause() {
-    this.stop = true;
+    this.state.status = 'paused';
+    this.emit('onPause');
+  }
+
+  stop() {
+    this.state.status = 'stopped';
+    this.emit('onComplete');
   }
 
   reset() {
-    this.elapsed = 0;
-    this.repeatCounter = 0;
-    this.stop = false;
+    this.state.status = 'stopped';
+    this.state.repeatCounter = 0;
+    this.state.elapsed = 0;
+    this.emit('onReset');
+  }
+
+  isPaused() {
+    return this.state.status === 'paused';
+  }
+
+  isStopped() {
+    return this.state.status === 'stopped';
   }
 }
