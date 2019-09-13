@@ -1,26 +1,42 @@
-import { downloadAssets } from './core/assets';
+import load from './core/assetLoader';
 import TestScene from './scenes/TestScene';
 // import Intro from './scenes/Intro';
 import GamePlay from './scenes/GamePlay';
 import StandBy from './scenes/StandBy';
-// import MainMenu from './scenes/MainMenu';
+import MainMenu from './scenes/MainMenu';
 import GameOver from './scenes/GameOver';
-// import Pause from './scenes/Pause';
+import Pause from './scenes/Pause';
 import Game from './core/Game';
 
 const canvas = document.querySelector('#flappy');
 
+const textures = [
+  'fg.png',
+  'bg.png',
+  'tap.png',
+  'bird.png',
+  'pipes.png',
+  'btn-1.png',
+  'btn-2.png',
+  'btn-3.png',
+  'scoreboard.png',
+  'titles.png',
+  'digits.png',
+  'digits_lg.png',
+];
+
 const createGame = () => {
   const newGame = new Game(canvas);
-
+  // Поменять на пресеты, два способа создать объект:
+  // сначала пресет потом добавление в сцену или напрямую в сцену.
   newGame.create
+    .scene('TestScene', TestScene)
     // .scene('Intro', Intro)
     .scene('GamePlay', GamePlay)
     .scene('StandBy', StandBy)
-    // .scene('MainMenu', MainMenu)
+    .scene('MainMenu', MainMenu)
     .scene('GameOver', GameOver)
-    // .scene('Pause', Pause)
-    .scene('TestScene', TestScene);
+    .scene('Pause', Pause);
 
   newGame.create
     .sprite('fg', 'fg.png', [336, 112])
@@ -50,11 +66,9 @@ const createGame = () => {
 
 const startGame = (newGame) => {
   newGame
-    .setScene('StandBy')
+    .setScene('MainMenu')
     .startGameLoop();
+  console.log('Game started');
 };
 
-downloadAssets()
-  .then(createGame)
-  .then(startGame)
-  .catch(console.error);
+load(textures).then(createGame).then(startGame).catch(console.error);
