@@ -1,30 +1,23 @@
-import { getAsset } from './assets';
-import createSprite from './createSprite';
-
 export default class Pause {
-  constructor(game, layer, lastScene) {
+  constructor(game, layer, parentScene) {
     this.game = game;
-    this.savedScene = lastScene;
+    this.parentScene = parentScene;
     this.layer = layer;
-    this.layer
-      .add('pause', createSprite(getAsset('btn-1.png'), [10, 10, 0]));
+    this.parentSceneLayer = this.parentScene.layer;
 
-    this.pause = this.layer.getChild('pause');
+    this.play = this.game.addTo(this.layer, 'play', [10, 10]);
 
-    this.pause.offset = 1;
-
-    this.game.objects.push(this.pause);
+    this.game.input.addToClick(this.play);
   }
 
-  update(dt) {
+  update() {
     // Resume
-    this.game.clickOn(this.pause, () => {
-      this.game.resumeTo(this.savedScene);
-    }, this);
+    this.game.input.clickOn(this.play, () => {
+      this.game.resumeTo(this.parentScene);
+    });
   }
 
   render(dt, cvs, ctx) {
-    this.savedScene.layer.render(ctx);
-    this.layer.render(ctx);
+    this.parentSceneLayer.render(dt, cvs, ctx);
   }
 }

@@ -1,4 +1,4 @@
-import TimeEvent from '../time/TimeEvent';
+import Timer from '../time/Timer';
 
 export default class GameOver {
   constructor(game, layer, parentScene) {
@@ -44,7 +44,7 @@ export default class GameOver {
         this.game.setScene('StandBy');
       });
       this.game.input.clickOn(this.menu, () => {
-        this.game.setScene('StandBy');
+        this.game.setScene('MainMenu');
       });
     }
   }

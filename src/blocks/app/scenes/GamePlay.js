@@ -1,5 +1,6 @@
-import { setScore, floorMoving, addPipeLine, jump, endGame } from '../AdditionalMethods';
-import TimeEvent from '../time/TimeEvent';
+import Timer from '../time/Timer';
+import Tween from '../tween/Tween';
+import { setScore, floorMoving, addPipeLine, jump, endGame, falling } from '../AdditionalMethods';
 
 export default class GamePlay {
   constructor(game, layer) {
@@ -11,17 +12,13 @@ export default class GamePlay {
 
     this.bg = this.game.addTo(this.layer, 'bg');
     this.pipes = this.game.addTo(this.layer, 'pipes');
-    this.bird = this.game.addTo(this.layer, 'bird', [70, 200]);
+    this.bird = this.game.addTo(this.layer, 'bird', [70, 200, -20]);
     this.floor = this.game.addTo(this.layer, 'fg', [0, 400]);
     this.tap = this.game.addTo(this.layer, 'tap', [87, 210]);
     this.pause = this.game.addTo(this.layer, 'pause', [10, 10]);
     this.ready = this.game.addTo(this.layer, 'ready', [44, 120]);
     this.scoreDisplay = this.game.addTo(this.layer, 'scoreDisplay');
 
-    this.angle = 0;
-    this.counter = 0;
-    this.opacity = 100;
-    this.timer = 0;
     this.speed = -120;
 
     this.bird.body.gravity.y = 1200;
@@ -29,50 +26,34 @@ export default class GamePlay {
     this.floor.body.velocity.x = this.speed;
 
     this.jump = jump.bind(this);
+    this.falling = falling.bind(this);
     this.floorMoving = floorMoving.bind(this);
     this.setScore = setScore.bind(this);
     this.addPipeLine = addPipeLine.bind(this);
     this.endGame = endGame.bind(this);
 
-    this.game.input.addToClick(this.pause, this.bg);
+    this.game.input.addToClick(this.bg, this.pause);
 
-    this.testTimer = new TimeEvent(600, () => {
-      this.bird.animation.stop();
-      this.angle += 5;
-    });
-    this.testTimer2 = new TimeEvent(1400, this.addPipeLine, true);
+    this.pipeTimer = new Timer(1500, true);
+    this.pipeTimer.on('onRepeat', this.addPipeLine);
+    this.pipeTimer.start();
+
+    this.fallTimer = new Timer(600, false);
+    this.fallTimer.on('onComplete', this.falling);
+    this.fallTimer.start();
+
+    this.birdFall = new Tween(this.bird, { angle: 90 }, 500);
+
+    this.readyOpacity = new Tween(this.ready, { opacity: 0 }, 500);
+    this.readyOpacity.start();
+
+    this.tapOpacity = new Tween(this.tap, { opacity: 0 }, 500);
+    this.tapOpacity.start();
   }
 
   update(dt) {
-    this.testTimer.update(dt);
-    this.testTimer2.update(dt);
-    // Opacity
-    if (this.opacity > 0) {
-      this.opacity -= 5;
-    }
-    this.ready.opacity = this.opacity;
-    this.tap.opacity = this.opacity;
-
     this.floorMoving();
     this.setScore();
-
-    // this.s = 100 * dt;
-    // this.timer += this.s;
-    // if (this.timer >= 150) {
-    //   this.timer = 0;
-    //   this.addPipeLine();
-    // }
-
-    // if (this.bird.animation.isPlaying()) {
-    //   this.counter += this.s;
-    // }
-
-    // Falling
-    // if (this.counter >= 60) {
-    //   this.bird.animation.stop();
-    //   this.angle += 5;
-    // }
-    this.bird.angle = Math.min(90, this.angle);
 
     // Jump
     this.game.input.pressKey(32, this.jump);
@@ -92,6 +73,10 @@ export default class GamePlay {
       this.endGame();
     });
 
-    // console.log();
+    this.pipeTimer.update(dt);
+    this.fallTimer.update(dt);
+    this.birdFall.update(dt);
+    this.readyOpacity.update(dt);
+    this.tapOpacity.update(dt);
   }
 }

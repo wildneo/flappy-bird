@@ -18,17 +18,15 @@ export function floorMoving() {
 export function jump() {
   this.bird.animation.play();
   this.bird.body.velocity.y = -350;
-  this.angle = -20;
-  this.counter = 0;
-  this.testTimer.reset();
+  this.birdFall.reset();
+  this.fallTimer.reset();
+  this.fallTimer.start();
+  this.bird.angle = -20;
 }
 
 export function falling() {
-  if (this.counter >= 60) {
-    this.bird.animation.stop();
-    this.angle += 5;
-  }
-  this.bird.angle = Math.min(90, this.angle);
+  this.bird.animation.stop();
+  this.birdFall.start();
 }
 
 export function setScore() {
