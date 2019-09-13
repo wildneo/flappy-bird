@@ -51,35 +51,36 @@ export default class Tween extends EventEmitter {
       this.stop();
       return;
     }
-    if (this.state.elapsed >= this.state.interval) {
-      this.state.repeatCounter += 1;
-      this.state.elapsed = 0;
-      this.emit('onRepeat');
-    }
     this.state.elapsed += dt * 1000;
     tween(this.target, this.data, this.state.interval, this.state.elapsed, this.easing, this.state.yoyo);
+
+    if (this.state.elapsed > this.state.interval) {
+      this.state.repeatCounter += 1;
+      this.state.elapsed = 0;
+      this.emit('onRepeat', this);
+    }
   }
 
   start() {
     this.state.status = 'work';
-    this.emit('onStart');
+    this.emit('onStart', this);
   }
 
   pause() {
     this.state.status = 'paused';
-    this.emit('onPause');
+    this.emit('onPause', this);
   }
 
   stop() {
     this.state.status = 'stopped';
-    this.emit('onComplete');
+    this.emit('onComplete', this);
   }
 
   reset() {
     this.state.status = 'stopped';
     this.state.elapsed = 0;
     this.state.repeatCounter = 0;
-    this.emit('onReset');
+    this.emit('onReset', this);
   }
 
   isPaused() {
