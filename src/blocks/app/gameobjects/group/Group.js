@@ -1,6 +1,6 @@
-import BasicObject from '../basicObject';
+import GameObject from '../GameObject';
 
-export default class Group extends BasicObject {
+export default class Group extends GameObject {
   constructor(type = 'Group') {
     super(type);
     this.entries = new Set();

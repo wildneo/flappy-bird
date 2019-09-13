@@ -1,4 +1,4 @@
-import EventEmitter from '../core/EventEmitter';
+import BasicObject from '../core/BasicObject';
 import * as easings from '../utils/easings';
 
 const getData = (target, params) => (
@@ -27,67 +27,65 @@ const tween = (obj, data, interval, elapsed, fn, yoyo) => (
   })
 );
 
-export default class Tween extends EventEmitter {
+export default class Tween extends BasicObject {
   constructor(target, params, interval, easing = 'linear', repeat = false, yoyo = false) {
-    super();
+    super('Tween');
+    this.state = 'stopped';
     this.target = target;
+    this.tweenData = getData(target, params);
     this.easing = easings[easing];
-    this.data = getData(target, params);
-    this.state = {
-      status: 'stopped',
-      elapsed: 0,
-      interval,
-      yoyo,
-      repeat,
-      repeatCounter: 0,
-    };
+    this.interval = interval;
+    this.repeatCounter = 0;
+    this.repeat = repeat;
+    this.yoyo = yoyo;
+    this.elapsed = 0;
   }
 
   update(dt) {
     if (this.isPaused() || this.isStopped()) {
       return;
     }
-    if (!this.state.repeat && this.state.repeatCounter > 0) {
+    if (!this.repeat && this.repeatCounter > 0) {
       this.stop();
       return;
     }
-    this.state.elapsed += dt * 1000;
-    tween(this.target, this.data, this.state.interval, this.state.elapsed, this.easing, this.state.yoyo);
+    this.elapsed += dt * 1000;
+    tween(this.target, this.tweenData, this.interval, this.elapsed, this.easing, this.yoyo);
 
-    if (this.state.elapsed > this.state.interval) {
-      this.state.repeatCounter += 1;
-      this.state.elapsed = 0;
+    if (this.elapsed > this.interval) {
+      this.repeatCounter += 1;
+      this.elapsed = 0;
       this.emit('onRepeat', this);
     }
   }
 
   start() {
-    this.state.status = 'work';
+    this.state = 'work';
     this.emit('onStart', this);
   }
 
   pause() {
-    this.state.status = 'paused';
+    this.state = 'paused';
     this.emit('onPause', this);
   }
 
   stop() {
-    this.state.status = 'stopped';
+    this.state = 'stopped';
     this.emit('onComplete', this);
   }
 
   reset() {
-    this.state.status = 'stopped';
-    this.state.elapsed = 0;
-    this.state.repeatCounter = 0;
+    this.state = 'stopped';
+    this.elapsed = 0;
+    this.repeatCounter = 0;
     this.emit('onReset', this);
   }
 
   isPaused() {
-    return this.state.status === 'paused';
+    return this.state === 'paused';
   }
 
   isStopped() {
-    return this.state.status === 'stopped';
+    return this.state === 'stopped';
   }
 }

@@ -1,7 +1,7 @@
 export default class Frame {
-  constructor(sprite) {
-    this.framePerRow = Math.floor(sprite.image.width / sprite.width);
-    this.framePerCol = Math.floor(sprite.image.height / sprite.height);
+  constructor(framePerRow, framePerCol) {
+    this.framePerRow = Math.floor(framePerRow);
+    this.framePerCol = Math.floor(framePerCol);
   }
 
   set index(index) {

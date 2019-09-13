@@ -5,7 +5,7 @@ export default (context, sprite) => {
   const halfHeight = sprite.height / 2;
 
   ctx.save();
-  ctx.globalAlpha = sprite.spriteAlpha;
+  ctx.globalAlpha = sprite.alpha;
   ctx.translate(x + halfWidth, y + halfHeight);
   ctx.rotate(angle * Math.PI / 180);
   // TODO: Scale.

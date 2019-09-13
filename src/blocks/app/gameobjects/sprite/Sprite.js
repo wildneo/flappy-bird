@@ -1,17 +1,15 @@
-import BasicObject from '../basicObject';
+import isOverlapped from '../../utils/isOverlapped';
 import spriteRender from './spriteRender';
+import GameObject from '../GameObject';
 import Animation from './Animation';
 import Frame from './Frame';
-import isOverlapped from '../../utils/isOverlapped';
 
-export default class Sprite extends BasicObject {
-  constructor(image, width, height, x, y, angle) {
-    super('Sprite', x, y, angle);
-    this.img = image;
-    this.frameWidth = width;
-    this.frameHeight = height;
+export default class Sprite extends GameObject {
+  constructor(texture, width, height, x, y, angle) {
+    super('Sprite', width, height, x, y, angle);
     this.animation = new Animation(this);
-    this.frame = new Frame(this);
+    this.frame = new Frame(texture.width / width, texture.height / height);
+    this.texture = texture;
     this.outOfBoundsDestroy = false;
   }
 
@@ -32,7 +30,7 @@ export default class Sprite extends BasicObject {
   }
 
   get image() {
-    return this.img;
+    return this.texture;
   }
 
   get sX() {
@@ -41,48 +39,6 @@ export default class Sprite extends BasicObject {
 
   get sY() {
     return this.height * this.frame.verticalIndex;
-  }
-
-  // Opacity
-  set alpha(alpha) {
-    this.spriteAlpha = alpha;
-  }
-
-  get alpha() {
-    return this.spriteAlpha || 1;
-  }
-
-  set opacity(opacity) {
-    this.spriteAlpha = opacity >= 0 ? opacity / 100 : 0;
-  }
-
-  get opacity() {
-    return this.alpha * 100;
-  }
-
-  // Dimensions
-  get width() {
-    return this.frameWidth;
-  }
-
-  get height() {
-    return this.frameHeight;
-  }
-
-  get left() {
-    return this.x;
-  }
-
-  get top() {
-    return this.y;
-  }
-
-  get right() {
-    return this.x + this.width;
-  }
-
-  get bottom() {
-    return this.y + this.height;
   }
 
   render(dt, cvs, ctx) {
