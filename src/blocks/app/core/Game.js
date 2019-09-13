@@ -9,12 +9,12 @@ export default class Game {
     this.ctx = this.cvs.getContext('2d');
     this.create = new ObjectCreator(this);
     this.input = new InputManager(this);
-    this.gameObjects = new Map();
+    this.presets = new Map();
     this.gameScenes = new Map();
   }
 
   addTo(group, key, position) {
-    const gameObject = this.gameObjects.get(key);
+    const gameObject = this.presets.get(key);
     const result = gameObject(position);
     return group.add(result);
   }
@@ -32,10 +32,10 @@ export default class Game {
   }
 
   update(dt, cvs, ctx) {
-    if (this.activeScene.layer.update) {
-      this.activeScene.layer.update(dt, cvs, ctx);
+    if (this.activeScene.update) {
+      this.activeScene.update(dt, cvs, ctx);
     }
-    this.activeScene.update(dt, cvs, ctx);
+    this.activeScene.layer.update(dt, cvs, ctx);
   }
 
   render(dt, cvs, ctx) {

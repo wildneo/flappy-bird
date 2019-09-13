@@ -1,4 +1,4 @@
-import { getAsset } from './assets';
+import { getAsset } from './assetLoader';
 import spriteCreator from '../gameobjects/sprite/spriteCreator';
 import groupCreator from '../gameobjects/group/groupCreator';
 
@@ -13,12 +13,12 @@ export default class ObjectCreator {
   }
 
   sprite(key, texture, size, attrs) {
-    this.game.gameObjects.set(key, spriteCreator(getAsset(texture), size, attrs));
+    this.game.presets.set(key, spriteCreator(getAsset(texture), size, attrs));
     return this;
   }
 
   group(key, attrs) {
-    this.game.gameObjects.set(key, groupCreator(attrs));
+    this.game.presets.set(key, groupCreator(attrs));
     return this;
   }
 }
